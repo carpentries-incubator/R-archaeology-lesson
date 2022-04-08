@@ -1,10 +1,7 @@
-![Build and Deploy Website](https://github.com/datacarpentry/R-ecology-lesson/workflows/Build%20and%20Deploy%20Website/badge.svg)
-[![Create a Slack Account with us](https://img.shields.io/badge/Create_Slack_Account-The_Carpentries-071159.svg)](https://swc-slack-invite.herokuapp.com/)
-[![Slack Status](https://img.shields.io/badge/Slack_Channel-DC_Ecology_R-E01563.svg)](https://swcarpentry.slack.com/messages/C9X9EC405)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3264888.svg)](https://doi.org/10.5281/zenodo.3264888)
 
+# Data carpentry: R for data analysis and visualization of Archaological Data
 
-# Data carpentry: R for data analysis and visualization of Ecological Data
+**N.B. This repository is an adaptation of the Data Carpentries R Ecology lesson (https://datacarpentry.org/R-ecology-lesson/). THe aim is to modify it to use archaeological data. Currently it is a work in progress so will include references to ecology as well as archaeology.**
 
 This is an introduction to R designed for participants with no programming
 experience. It can be taught in 3/4 of a day (approximately 6 hours). 
