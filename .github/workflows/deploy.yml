@@ -60,7 +60,7 @@ jobs:
 
       - name: Deploy site
         uses: maxheld83/ghpages@v0.3.0
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'datacarpentry/R-ecology-lesson' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'alisonrclarke/R-archaeology-lesson' }}
         env:
           BUILD_DIR: _site/
           GH_PAT: ${{ secrets.GH_PAT }}

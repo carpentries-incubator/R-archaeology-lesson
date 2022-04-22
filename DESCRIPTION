@@ -1,4 +1,4 @@
-Package: recologylesson
+Package: rarchaeologylesson
 Imports:
   remotes,
   tidyverse,

@@ -24,7 +24,7 @@ portal-database.sqlite
 # output from rmarkdown::render_site(), see #566
 _site/
 site_libs/
-img/R-ecology-*.png
+img/R-archaeology-*.png
 0*.html
 0*.md
 code-handout.R

@@ -12,20 +12,20 @@ generate_citation <- function(authors = "AUTHORS",
                               editors = eds,
                               doi = "10.5281/zenodo.3264888") {
     aut <- readLines(authors)
-    
+
     # remove first line
     aut <- aut[-1]
-    
+
     aut <- as.person(aut)
-    
+
     bibentry(
         bibtype = "Misc",
         author = personList(aut),
-        title = "datacarpentry/R-ecology-lesson: Data Carpentry: Data Analysis and Visualization in R for Ecologists, June 2019",
+        title = "alisonrclarke/R-archaelogy-lesson: Data Carpentry: Data Analysis and Visualization in R for Archaeologists, June 2019",
         editor = editors,
         month = format(Sys.Date(), "%B"),
         year = format(Sys.Date(), "%Y"),
-        url = "https://datacarpentry.org/R-ecology-lesson/",
+        url = "https://alisonrclarke.github.io/R-archaeology-lesson/",
         doi = doi
     )
 }
@@ -42,7 +42,7 @@ generate_zenodo_json <- function(editors) {
     })
     eds <- paste(editors$given, editors$family)
     res <- list(creators = pp)
-    
+
     if (!is.null(editors)) {
         ctb <- lapply(paste(editors$given, editors$family),
                       function(x)

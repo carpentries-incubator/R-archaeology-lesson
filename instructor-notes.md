@@ -6,7 +6,7 @@ root: .
 
 ## Dataset
 
-The data used for this lesson are in the figshare repository at: 
+The data used for this lesson are in the figshare repository at:
 https://doi.org/10.6084/m9.figshare.1314459
 
 This lesson uses mostly `combined.csv`. The 3 other csv files: `plots.csv`,
@@ -26,7 +26,7 @@ this point.
 
 ## The handout
 
-The [code handout](https://datacarpentry.org/R-ecology-lesson/code-handout.R)
+The [code handout](https://alisonrclarke.github.io/R-archaeology-lesson/code-handout.R)
 (a link to download it is also available on the top bar of the lesson website)
 is useful for Data Carpentry workshops. It includes an outline of the lesson
 content, the text for the challenges, the links for the files that need to be
@@ -38,19 +38,19 @@ this file, so the participants can follow along.
 
 ## R Version
 
-With the release of R 4.0.0 in early 2020, an important change has been made 
-to R: The default for `stringsAsFactors` is now `FALSE` instead of `TRUE`. 
-As a result, the `read.csv()` and `data.frame()` functions do not automatically 
-convert character columns to factors anymore (you can read more about it 
+With the release of R 4.0.0 in early 2020, an important change has been made
+to R: The default for `stringsAsFactors` is now `FALSE` instead of `TRUE`.
+As a result, the `read.csv()` and `data.frame()` functions do not automatically
+convert character columns to factors anymore (you can read more about it
 [in this post on the R developer blog](https://developer.r-project.org/Blog/public/2020/02/16/stringsasfactors/index.html)).
 
-This change should not cause any problems with this lesson, independent of 
+This change should not cause any problems with this lesson, independent of
 whether R >4.0 is used or not, because we it uses
 `read_csv()` from the **`tidyverse`** package throughout. Other than
-`read.csv()` from base R, `read_csv()` never converts character columns to 
+`read.csv()` from base R, `read_csv()` never converts character columns to
 factors, regardless of the R version.
 
-Nevertheless, it is recommended that learners install a version of R ≥4.0.0, 
+Nevertheless, it is recommended that learners install a version of R ≥4.0.0,
 and instructors and helpers should be aware of this potential source of error.
 
 ## RStudio and Multiple R Installs
@@ -58,18 +58,18 @@ and instructors and helpers should be aware of this potential source of error.
 Some learners may have previous R installations. On Mac, if a new install
 is performed, the learner's system will create a symbolic link, pointing to the
 new install as 'Current.' Sometimes this process does not occur, and, even
-though a new R is installed and can be accessed via the R console, RStudio does 
+though a new R is installed and can be accessed via the R console, RStudio does
 not find it. The net result of this is that the learner's RStudio will be
-running an older R install. This will cause package installations to fail. This 
-can be fixed at the terminal. First, check for the appropriate R installation in 
+running an older R install. This will cause package installations to fail. This
+can be fixed at the terminal. First, check for the appropriate R installation in
 the library;
 
 ```
 ls -l /Library/Frameworks/R.framework/Versions/
 ```
 
-We are currently using R 4.0.x. If it isn't there, they will need to install it. 
-If it is present, you will need to set the symbolic link to Current to point to 
+We are currently using R 4.0.x. If it isn't there, they will need to install it.
+If it is present, you will need to set the symbolic link to Current to point to
 the 4.0.x directory:
 
 ```
@@ -80,25 +80,25 @@ Then restart RStudio.
 
 ## Issues with Fonts on MacOS
 
-On older versions of MacOS, it may happen that axis labels do not show up when calling `plot()` 
-(section "renaming factors" in "Starting with Data"). This issue might be due to the default font 
-Arial being deactivated, so that R cannot find it. To resolve this issue, go to Finder, 
-Search for Font Book and open it. Look for the Arial font and, if it is greyed out, turn it on. 
+On older versions of MacOS, it may happen that axis labels do not show up when calling `plot()`
+(section "renaming factors" in "Starting with Data"). This issue might be due to the default font
+Arial being deactivated, so that R cannot find it. To resolve this issue, go to Finder,
+Search for Font Book and open it. Look for the Arial font and, if it is greyed out, turn it on.
 
-If the problem occurs with `ggplot2` plots, an alternative workaround is to change the default 
-theme for the R session, so that ggplot uses a _serif_ font. Since Arial is a _sans-serif_ 
-font, R will try to load a different font. This can be done with 
-`theme_update(text = element_text(family = "serif"))`. 
+If the problem occurs with `ggplot2` plots, an alternative workaround is to change the default
+theme for the R session, so that ggplot uses a _serif_ font. Since Arial is a _sans-serif_
+font, R will try to load a different font. This can be done with
+`theme_update(text = element_text(family = "serif"))`.
 
 ## Required packages
 
 Save yourself some aggrevation, and have everyone check and see if they can
-install all these packages before you start the first day. 
+install all these packages before you start the first day.
 See the "Preparations" section on the homepage of the course website for
 package installation instructions.
 
 Sometimes learners are unable to install the **`tidyverse`** package.
-In that case, they can try to install the individual packages that are actually 
+In that case, they can try to install the individual packages that are actually
 needed:
 
 ```
@@ -147,11 +147,11 @@ The two main goals for this lessons are:
   and so it is important that they are guided through it the first time they are
   exposed to it. The content of the lesson should be enough for learners to
   avoid common mistakes with them.
-* If the learners are not familiar with the ecology terminology used in the data
-  set, it might be a good idea to briefly review it here. Especially the terms 
-  *genus* and *plot* have caused some confusion to learners in the past. 
+* If the learners are not familiar with the archaeology terminology used in the data
+  set, it might be a good idea to briefly review it here. Especially the terms
+  *genus* and *plot* have caused some confusion to learners in the past.
   It might help to point out that the plural of genus is *genera*, and that
-  `plot_id` and `plot_type` in the data set refer to the ID and type of a plot 
+  `plot_id` and `plot_type` in the data set refer to the ID and type of a plot
   of land that was surveyed by the researchers in the study.
 
 ### Manipulating data
@@ -182,12 +182,12 @@ The two main goals for this lessons are:
 * This lesson is a broad overview of ggplot2 and focuses on (1) getting familiar
   with the layering system of ggplot2, (2) using the argument `group` in the
   `aes()` function, (3) basic customization of the plots.
-* It maybe worthwhile to mention that we can also specify colors by color HEX code (http://colorbrewer2.org) 
+* It maybe worthwhile to mention that we can also specify colors by color HEX code (http://colorbrewer2.org)
     ```
     ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
         geom_point(alpha = 0.1, color = "#FF0000")
     ```
-    
+
 ### R and SQL
 
 * Ideally this lesson is best taught at the end of the workshop (as a capstone
@@ -220,25 +220,25 @@ file
 -   Tools > Install Packages > set to 'from Zip/TAR'
 
 It is important that R, and the R packages be installed locally, not on a
-network drive. If a learner is using a machine with multiple users where their 
-account is not based locally this can create a variety of issues (This often 
+network drive. If a learner is using a machine with multiple users where their
+account is not based locally this can create a variety of issues (This often
 happens on university computers). Hopefully the learner will realize these
-issues before hand, but depending on the machine and how the IT folks that 
-service the computer have things set up, it may be very difficult to impossible 
-to make R work without their help. 
+issues before hand, but depending on the machine and how the IT folks that
+service the computer have things set up, it may be very difficult to impossible
+to make R work without their help.
 
-If learners are having issues with one package, they may have issues with 
-another. It is often easier to [make sure they have all the necessary packages installed](#required-packages) 
+If learners are having issues with one package, they may have issues with
+another. It is often easier to [make sure they have all the necessary packages installed](#required-packages)
 at one time, rather then deal with these issues over and over.
 
 In lesson 2 starting with data, one might not have the appropriate folder "data_raw" in their working directory causing an error. This is a good time to go over reading an error, and a brief introduction of how to identify your working directory `getwd()` as well as setting your working directory `setwd("/somedirectory")` and if needed creating a directory within your script `dir.create("/some_new_directory")`, or simply creating it within a file explorer works if short on time.
 
 ## Other Resources
 
-If you encounter a problem during a workshop, feel free to contact the 
+If you encounter a problem during a workshop, feel free to contact the
 maintainers by email or
-[open an issue](https://github.com/datacarpentry/R-ecology-lesson/issues/new).
+[open an issue](https://github.com/alisonrclarke/R-archaeology-lesson/issues/new).
 
 For a more in-depth coverage of topics of the workshops, you may want to read
-"[R for Data Science](https://r4ds.had.co.nz/)" by Hadley Wickham and Garrett 
+"[R for Data Science](https://r4ds.had.co.nz/)" by Hadley Wickham and Garrett
 Grolemund.

@@ -28,7 +28,7 @@ if (!file.exists("data_raw/portal_mammals.sqlite")) {
 library(knitr)
 library(methods)
 suppressPackageStartupMessages(library(tidyverse))
-knitr::opts_chunk$set(results='hide', fig.path='img/R-ecology-',
+knitr::opts_chunk$set(results='hide', fig.path='img/R-archaeology-',
                       comment = "#>", purl = FALSE)
 
 ### Custom hooks
