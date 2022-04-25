@@ -535,7 +535,7 @@ div.tocify {
 	  <span id ="search-icon"><i class="fa fa-search fa-lg"></i></span>
 	</li>
         <li>
-	  <a href="https://github.com/datacarpentry/R-ecology-lesson">
+	  <a href="https://github.com/alisonrclarke/R-archaeology-lesson">
 	    <span class="fa fa-github fa-lg"></span>
 	  </a>
 	</li>
@@ -597,7 +597,7 @@ div.tocify {
 <p>To add a geom to the plot use <code>+</code> operator. Because we have two continuous variables, let’s use <code>geom_point()</code> first:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
-<p><img src="img/R-ecology-first-ggplot-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-first-ggplot-1.png" width="672" /></p>
 <p>The <code>+</code> in the <strong><code>ggplot2</code></strong> package is particularly useful because it allows you to modify existing <code>ggplot</code> objects. This means you can easily set up plot “templates” and conveniently explore different types of plots, so the above plot can also be generated with code like this:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Assign plot to a variable</span></a>
 <a class="sourceLine" id="cb7-2" title="2">surveys_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete,</a>
@@ -639,19 +639,19 @@ div.tocify {
 <p>Building plots with <strong><code>ggplot2</code></strong> is typically an iterative process. We start by defining the dataset we’ll use, lay out the axes, and choose a geom:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb11-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>()</a></code></pre></div>
-<p><img src="img/R-ecology-create-ggplot-object-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-create-ggplot-object-1.png" width="672" /></p>
 <p>Then, we start modifying this plot to extract more information from it. For instance, we can add transparency (<code>alpha</code>) to avoid overplotting:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb12-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.1</span>)</a></code></pre></div>
-<p><img src="img/R-ecology-adding-transparency-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-adding-transparency-1.png" width="672" /></p>
 <p>We can also add colors for all the points:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb13-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.1</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
-<p><img src="img/R-ecology-adding-colors-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-adding-colors-1.png" width="672" /></p>
 <p>Or to color each species in the plot differently, you could use a vector as an input to the argument <strong>color</strong>. <strong><code>ggplot2</code></strong> will provide a different color corresponding to different values in the vector. Here is an example where we color with <strong><code>species_id</code></strong>:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb14-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.1</span>, <span class="kw">aes</span>(<span class="dt">color =</span> species_id))</a></code></pre></div>
-<p><img src="img/R-ecology-color-by-species-1-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-color-by-species-1-1.png" width="672" /></p>
 <blockquote>
 <h3 id="challenge">Challenge</h3>
 <p>Use what you just learned to create a scatter plot of <code>weight</code> over <code>species_id</code> with the plot types showing in different colors. Is this a good way to show this type of data?</p>
@@ -663,7 +663,7 @@ Answer
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete,</a>
 <a class="sourceLine" id="cb15-2" title="2">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> species_id, <span class="dt">y =</span> weight)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb15-3" title="3"><span class="st">   </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> plot_type))</a></code></pre></div>
-<img src="img/R-ecology-scatter-challenge-answer-1.png" width="672" />
+<img src="img/R-archaeology-scatter-challenge-answer-1.png" width="672" />
 </div>
 </div>
 </blockquote>
@@ -673,12 +673,12 @@ Answer
 <p>We can use boxplots to visualize the distribution of weight within each species:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> species_id, <span class="dt">y =</span> weight)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb16-2" title="2"><span class="st">    </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
-<p><img src="img/R-ecology-boxplot-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-boxplot-1.png" width="672" /></p>
 <p>By adding points to the boxplot, we can have a better idea of the number of measurements and of their distribution:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> species_id, <span class="dt">y =</span> weight)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb17-2" title="2"><span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha =</span> <span class="dv">0</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb17-3" title="3"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">color =</span> <span class="st">&quot;tomato&quot;</span>)</a></code></pre></div>
-<p><img src="img/R-ecology-boxplot-with-points-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-boxplot-with-points-1.png" width="672" /></p>
 <p>Notice how the boxplot layer is behind the jitter layer? What do you need to change in the code to put the boxplot in front of the points such that it’s not hidden?</p>
 <blockquote>
 <h3 id="challenges">Challenges</h3>
@@ -708,15 +708,15 @@ Answer
 <p>Timelapse data can be visualized as a line plot with years on the x-axis and counts on the y-axis:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb19-2" title="2"><span class="st">     </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="img/R-ecology-first-time-series-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-first-time-series-1.png" width="672" /></p>
 <p>Unfortunately, this does not work because we plotted data for all the genera together. We need to tell ggplot to draw a line for each genus by modifying the aesthetic function to include <code>group = genus</code>:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">group =</span> genus)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb20-2" title="2"><span class="st">    </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="img/R-ecology-time-series-by-species-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-time-series-by-species-1.png" width="672" /></p>
 <p>We will be able to distinguish genera in the plot if we add colors (using <code>color</code> also automatically groups the data):</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> genus)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb21-2" title="2"><span class="st">    </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="img/R-ecology-time-series-with-colors-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-time-series-with-colors-1.png" width="672" /></p>
 </div>
 <div id="integrating-the-pipe-operator-with-ggplot2" class="section level2">
 <h2>Integrating the pipe operator with ggplot2</h2>
@@ -724,7 +724,7 @@ Answer
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">yearly_counts <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb22-2" title="2"><span class="st">    </span><span class="kw">ggplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> genus)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb22-3" title="3"><span class="st">    </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="img/R-ecology-integrating-the-pipe-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-integrating-the-pipe-1.png" width="672" /></p>
 <p>The pipe operator can also be used to link data manipulation with consequent data visualization.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">yearly_counts_graph &lt;-<span class="st"> </span>surveys_complete <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb23-2" title="2"><span class="st">    </span><span class="kw">count</span>(year, genus) <span class="op">%&gt;%</span></a>
@@ -732,7 +732,7 @@ Answer
 <a class="sourceLine" id="cb23-4" title="4"><span class="st">    </span><span class="kw">geom_line</span>()</a>
 <a class="sourceLine" id="cb23-5" title="5"></a>
 <a class="sourceLine" id="cb23-6" title="6">yearly_counts_graph</a></code></pre></div>
-<p><img src="img/R-ecology-pipes-and-manipulation-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-pipes-and-manipulation-1.png" width="672" /></p>
 </div>
 <div id="faceting" class="section level2">
 <h2>Faceting</h2>
@@ -740,7 +740,7 @@ Answer
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb24-2" title="2"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb24-3" title="3"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="dt">facets =</span> <span class="kw">vars</span>(genus))</a></code></pre></div>
-<p><img src="img/R-ecology-first-facet-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-first-facet-1.png" width="672" /></p>
 <p>Now we would like to split the line in each plot by the sex of each individual measured. To do that we need to make counts in the data frame grouped by <code>year</code>, <code>genus</code>, and <code>sex</code>:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"> yearly_sex_counts &lt;-<span class="st"> </span>surveys_complete <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb25-2" title="2"><span class="st">                      </span><span class="kw">count</span>(year, genus, sex)</a></code></pre></div>
@@ -748,26 +748,26 @@ Answer
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb26-2" title="2"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb26-3" title="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="dt">facets =</span>  <span class="kw">vars</span>(genus))</a></code></pre></div>
-<p><img src="img/R-ecology-facet-by-genus-and-sex-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-facet-by-genus-and-sex-1.png" width="672" /></p>
 <p>We can also facet both by sex and genus:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts,</a>
 <a class="sourceLine" id="cb27-2" title="2">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb27-3" title="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb27-4" title="4"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">rows =</span> <span class="kw">vars</span>(sex), <span class="dt">cols =</span>  <span class="kw">vars</span>(genus))</a></code></pre></div>
-<p><img src="img/R-ecology-average-weight-time-facet-both-1.png" width="912" /></p>
+<p><img src="img/R-archaeology-average-weight-time-facet-both-1.png" width="912" /></p>
 <p>You can also organise the panels only by rows (or only by columns):</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="co"># One column, facet by rows</span></a>
 <a class="sourceLine" id="cb28-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts,</a>
 <a class="sourceLine" id="cb28-3" title="3">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb28-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb28-5" title="5"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">rows =</span> <span class="kw">vars</span>(genus))</a></code></pre></div>
-<p><img src="img/R-ecology-average-weight-time-facet-sex-rows-1.png" width="768" /></p>
+<p><img src="img/R-archaeology-average-weight-time-facet-sex-rows-1.png" width="768" /></p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="co"># One row, facet by column</span></a>
 <a class="sourceLine" id="cb29-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts,</a>
 <a class="sourceLine" id="cb29-3" title="3">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb29-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb29-5" title="5"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(genus))</a></code></pre></div>
-<p><img src="img/R-ecology-average-weight-time-facet-sex-columns-1.png" width="912" /></p>
+<p><img src="img/R-archaeology-average-weight-time-facet-sex-columns-1.png" width="912" /></p>
 <p><strong>Note:</strong> <code>ggplot2</code> before version 3.0.0 used formulas to specify how plots are faceted. If you encounter <code>facet_grid</code>/<code>wrap(...)</code> code containing <code>~</code>, please read <a href="https://ggplot2.tidyverse.org/news/#tidy-evaluation" class="uri">https://ggplot2.tidyverse.org/news/#tidy-evaluation</a>.</p>
 </div>
 <div id="ggplot2-themes" class="section level2">
@@ -779,7 +779,7 @@ Answer
 <a class="sourceLine" id="cb30-3" title="3"><span class="st">     </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb30-4" title="4"><span class="st">     </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(genus)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb30-5" title="5"><span class="st">     </span><span class="kw">theme_bw</span>()</a></code></pre></div>
-<p><img src="img/R-ecology-facet-by-species-and-sex-white-bg-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-facet-by-species-and-sex-white-bg-1.png" width="672" /></p>
 <p>In addition to <code>theme_bw()</code>, which changes the plot background to white, <strong><code>ggplot2</code></strong> comes with several other themes which can be useful to quickly change the look of your visualization. The complete list of themes is available at <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="uri">https://ggplot2.tidyverse.org/reference/ggtheme.html</a>. <code>theme_minimal()</code> and <code>theme_light()</code> are popular, and <code>theme_void()</code> can be useful as a starting point to create a new hand-crafted theme.</p>
 <p>The <a href="https://jrnold.github.io/ggthemes/reference/index.html">ggthemes</a> package provides a wide variety of options.</p>
 <blockquote>
@@ -799,7 +799,7 @@ Answer
 <a class="sourceLine" id="cb33-2" title="2"><span class="st">   </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb33-3" title="3"><span class="st">   </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(species_id)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb33-4" title="4"><span class="st">   </span><span class="kw">theme_bw</span>()</a></code></pre></div>
-<img src="img/R-ecology-average-weight-time-series-1.png" width="672" />
+<img src="img/R-archaeology-average-weight-time-series-1.png" width="672" />
 </div>
 </div>
 </blockquote>
@@ -815,7 +815,7 @@ Answer
 <a class="sourceLine" id="cb34-5" title="5">         <span class="dt">x =</span> <span class="st">&quot;Year of observation&quot;</span>,</a>
 <a class="sourceLine" id="cb34-6" title="6">         <span class="dt">y =</span> <span class="st">&quot;Number of individuals&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-7" title="7"><span class="st">    </span><span class="kw">theme_bw</span>()</a></code></pre></div>
-<p><img src="img/R-ecology-number-species-year-with-right-labels-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-number-species-year-with-right-labels-1.png" width="672" /></p>
 <p>The axes have more informative names, but their readability can be improved by increasing the font size. This can be done with the generic <code>theme()</code> function:</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb35-2" title="2"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
@@ -825,7 +825,7 @@ Answer
 <a class="sourceLine" id="cb35-6" title="6">        <span class="dt">y =</span> <span class="st">&quot;Number of individuals&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb35-7" title="7"><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb35-8" title="8"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">text=</span><span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>))</a></code></pre></div>
-<p><img src="img/R-ecology-number-species-year-with-right-labels-xfont-size-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-number-species-year-with-right-labels-xfont-size-1.png" width="672" /></p>
 <p>Note that it is also possible to change the fonts of your plots. If you are on Windows, you may have to install the <a href="https://github.com/wch/extrafont"><strong><code>extrafont</code></strong> package</a>, and follow the instructions included in the README for this package.</p>
 <p>After our manipulations, you may notice that the values on the x-axis are still not properly readable. Let’s change the orientation of the labels and adjust them vertically and horizontally so they don’t overlap. You can use a 90 degree angle, or experiment to find the appropriate angle for diagonally oriented labels. We can also modify the facet label text (<code>strip.text</code>) to italicize the genus names:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
@@ -839,7 +839,7 @@ Answer
 <a class="sourceLine" id="cb36-9" title="9">                        <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;grey20&quot;</span>, <span class="dt">size =</span> <span class="dv">12</span>),</a>
 <a class="sourceLine" id="cb36-10" title="10">                        <span class="dt">strip.text =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;italic&quot;</span>),</a>
 <a class="sourceLine" id="cb36-11" title="11">                        <span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>))</a></code></pre></div>
-<p><img src="img/R-ecology-number-species-year-with-theme-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-number-species-year-with-theme-1.png" width="672" /></p>
 <p>If you like the changes you created better than the default theme, you can save them as an object to be able to easily apply them to other plots you may create:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">grey_theme &lt;-<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">colour=</span><span class="st">&quot;grey20&quot;</span>, <span class="dt">size =</span> <span class="dv">12</span>,</a>
 <a class="sourceLine" id="cb37-2" title="2">                                               <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>,</a>
@@ -850,7 +850,7 @@ Answer
 <a class="sourceLine" id="cb37-7" title="7"><span class="kw">ggplot</span>(surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> species_id, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb37-8" title="8"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb37-9" title="9"><span class="st">    </span>grey_theme</a></code></pre></div>
-<p><img src="img/R-ecology-number-species-year-with-right-labels-xfont-orientation-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-number-species-year-with-right-labels-xfont-orientation-1.png" width="672" /></p>
 <blockquote>
 <h3 id="challenge-2">Challenge</h3>
 <p>With all of this information in hand, please take another five minutes to either improve one of the plots generated in this exercise or create a beautiful graph of your own. Use the RStudio <a href="https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf"><strong><code>ggplot2</code></strong> cheat sheet</a> for inspiration.</p>
@@ -879,7 +879,7 @@ Answer
 <a class="sourceLine" id="cb39-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Abundance&quot;</span>)</a>
 <a class="sourceLine" id="cb39-11" title="11"></a>
 <a class="sourceLine" id="cb39-12" title="12">plot_weight <span class="op">/</span><span class="st"> </span>plot_count <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</a></code></pre></div>
-<p><img src="img/R-ecology-patchwork-example-1.png" width="960" /></p>
+<p><img src="img/R-archaeology-patchwork-example-1.png" width="960" /></p>
 <p>You can also use parentheses <code>()</code> to create more complex layouts. There are many useful examples on the <a href="https://patchwork.data-imaginist.com/">patchwork website</a></p>
 </div>
 <div id="exporting-plots" class="section level2">
@@ -906,7 +906,7 @@ Answer
 <a class="sourceLine" id="cb40-18" title="18"><span class="kw">ggsave</span>(<span class="st">&quot;plot_combined.png&quot;</span>, plot_combined, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">dpi =</span> <span class="dv">300</span>)</a></code></pre></div>
 <p>Note: The parameters <code>width</code> and <code>height</code> also determine the font size in the saved plot.</p>
 <p style="text-align: right; font-size: small;">
-Page built on: 📆 2022-03-16 ‒ 🕢 15:21:47
+Page built on: 📆 2022-04-25 ‒ 🕢 07:51:56
 </p>
 </div>
 
@@ -922,7 +922,7 @@ Page built on: 📆 2022-03-16 ‒ 🕢 15:21:47
     </p>
     <p class="text-muted">
       Questions?  Feedback?
-      Please <a href="https://github.com/datacarpentry/R-ecology-lesson/issues/new">file
+      Please <a href="https://github.com/alisonrclarke/R-archaeology-lesson/issues/new">file
         an issue on GitHub</a>. <br/>
       On Twitter: <a href="https://twitter.com/datacarpentry">@datacarpentry</a>
     </p>

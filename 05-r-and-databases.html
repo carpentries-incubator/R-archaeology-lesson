@@ -537,7 +537,7 @@ div.tocify {
 	  <span id ="search-icon"><i class="fa fa-search fa-lg"></i></span>
 	</li>
         <li>
-	  <a href="https://github.com/datacarpentry/R-ecology-lesson">
+	  <a href="https://github.com/alisonrclarke/R-archaeology-lesson">
 	    <span class="fa fa-github fa-lg"></span>
 	  </a>
 	</li>
@@ -601,7 +601,7 @@ div.tocify {
 <p>Using a similar approach, you could connect to many other database management systems that are supported by R including MySQL, PostgreSQL, BigQuery, etc.</p>
 <p>Let’s take a closer look at the <code>mammals</code> database we just connected to:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">src_dbi</span>(mammals)</a></code></pre></div>
-<pre><code>#&gt; src:  sqlite 3.37.2 [/home/runner/work/R-ecology-lesson/R-ecology-lesson/data_raw/portal_mammals.sqlite]
+<pre><code>#&gt; src:  sqlite 3.38.2 [/home/runner/work/R-archaeology-lesson/R-archaeology-lesson/data_raw/portal_mammals.sqlite]
 #&gt; tbls: plots, species, surveys</code></pre>
 <p>Just like a spreadsheet with multiple worksheets, a SQLite database can contain multiple tables. In this case three of them are listed in the <code>tbls</code> row in the output above:</p>
 <ul>
@@ -866,7 +866,7 @@ Answer
 #&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
 <p>Currently, our new database is empty, it doesn’t contain any tables:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">my_db</a></code></pre></div>
-<pre><code>#&gt; src:  sqlite 3.37.2 [data/portal-database-output.sqlite]
+<pre><code>#&gt; src:  sqlite 3.38.2 [data/portal-database-output.sqlite]
 #&gt; tbls:</code></pre>
 <p>To add tables, we copy the existing data.frames into the database one by one:</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="kw">copy_to</span>(my_db, surveys)</a>
@@ -880,7 +880,7 @@ Answer
 <p><strong>Note:</strong> In this example, we first loaded all of the data into the R session by reading the three <code>csv</code> files. Because all the data has to flow through R, this is not suitable for very large datasets.</p>
 <p><strong>Note:</strong> Finally, to close the connection to the mammals database you may use <code>DBI::dbDisconnect(mammals)</code>; this discards all pending work and frees resources, e.g. memory.</p>
 <p style="text-align: right; font-size: small;">
-Page built on: 📆 2022-03-16 ‒ 🕢 15:21:53
+Page built on: 📆 2022-04-25 ‒ 🕢 07:52:04
 </p>
 </div>
 
@@ -896,7 +896,7 @@ Page built on: 📆 2022-03-16 ‒ 🕢 15:21:53
     </p>
     <p class="text-muted">
       Questions?  Feedback?
-      Please <a href="https://github.com/datacarpentry/R-ecology-lesson/issues/new">file
+      Please <a href="https://github.com/alisonrclarke/R-archaeology-lesson/issues/new">file
         an issue on GitHub</a>. <br/>
       On Twitter: <a href="https://twitter.com/datacarpentry">@datacarpentry</a>
     </p>

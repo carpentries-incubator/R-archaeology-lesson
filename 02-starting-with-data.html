@@ -535,7 +535,7 @@ div.tocify {
 	  <span id ="search-icon"><i class="fa fa-search fa-lg"></i></span>
 	</li>
         <li>
-	  <a href="https://github.com/datacarpentry/R-ecology-lesson">
+	  <a href="https://github.com/alisonrclarke/R-archaeology-lesson">
 	    <span class="fa fa-github fa-lg"></span>
 	  </a>
 	</li>
@@ -932,7 +932,7 @@ Answer
 <p>When your data is stored as a factor, you can use the <code>plot()</code> function to get a quick glance at the number of observations represented by each factor level. Let’s look at the number of males and females captured over the course of the experiment:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="co">## bar plot of the number of females and males captured during the experiment:</span></a>
 <a class="sourceLine" id="cb27-2" title="2"><span class="kw">plot</span>(surveys<span class="op">$</span>sex)</a></code></pre></div>
-<p><img src="img/R-ecology-unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-unnamed-chunk-27-1.png" width="672" /></p>
 <p>However, as we saw when we used <code>summary(surveys$sex)</code>, there are about 1700 individuals for which the sex information hasn’t been recorded. To show them in the plot, we can turn the missing values into a factor level with the <code>addNA()</code> function. We will also have to give the new factor level a label. We are going to work with a copy of the <code>sex</code> column, so we’re not modifying the working copy of the data frame:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">sex &lt;-<span class="st"> </span>surveys<span class="op">$</span>sex</a>
 <a class="sourceLine" id="cb28-2" title="2"><span class="kw">levels</span>(sex)</a></code></pre></div>
@@ -951,7 +951,7 @@ Answer
 #&gt; [6] undetermined
 #&gt; Levels: F M undetermined</code></pre>
 <p>Now we can plot the data again, using <code>plot(sex)</code>.</p>
-<p><img src="img/R-ecology-unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-unnamed-chunk-29-1.png" width="672" /></p>
 <blockquote>
 <h3 id="challenge-3">Challenge</h3>
 <ul>
@@ -966,7 +966,7 @@ Answer
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">levels</span>(sex)[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>)</a>
 <a class="sourceLine" id="cb38-2" title="2">sex &lt;-<span class="st"> </span><span class="kw">factor</span>(sex, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;undetermined&quot;</span>, <span class="st">&quot;female&quot;</span>, <span class="st">&quot;male&quot;</span>))</a>
 <a class="sourceLine" id="cb38-3" title="3"><span class="kw">plot</span>(sex)</a></code></pre></div>
-<img src="img/R-ecology-unnamed-chunk-30-1.png" width="672" />
+<img src="img/R-archaeology-unnamed-chunk-30-1.png" width="672" />
 </div>
 </div>
 </blockquote>
@@ -1064,7 +1064,7 @@ Answer
 <p>There are several ways you could deal with situation: * If you have access to the raw data (e.g., field sheets) or supporting information (e.g., field trip reports/logs), check them and ensure the electronic database matches the information in the original data source. * If you are able to contact the person responsible for collecting the data, you could refer to them and ask for clarification. * You could also check the rest of the dataset for clues about the correct value for the erroneous dates. * If your project has guidelines on how to correct this sort of errors, refer to them and apply any recommendations. * If it is not possible to ascertain the correct value for these observations, you may want to leave them as missing data.</p>
 <p>Regardless of the option you choose, it is important that you document the error and the corrections (if any) that you apply to your data.</p>
 <p style="text-align: right; font-size: small;">
-Page built on: 📆 2022-03-16 ‒ 🕢 15:21:14
+Page built on: 📆 2022-04-25 ‒ 🕢 07:51:18
 </p>
 </div>
 
@@ -1080,7 +1080,7 @@ Page built on: 📆 2022-03-16 ‒ 🕢 15:21:14
     </p>
     <p class="text-muted">
       Questions?  Feedback?
-      Please <a href="https://github.com/datacarpentry/R-ecology-lesson/issues/new">file
+      Please <a href="https://github.com/alisonrclarke/R-archaeology-lesson/issues/new">file
         an issue on GitHub</a>. <br/>
       On Twitter: <a href="https://twitter.com/datacarpentry">@datacarpentry</a>
     </p>
