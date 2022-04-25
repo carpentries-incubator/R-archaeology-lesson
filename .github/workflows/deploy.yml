@@ -59,8 +59,8 @@ jobs:
         run: make -B all
 
       - name: Deploy site
-        uses: maxheld83/ghpages@v0.3.0
+        uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'alisonrclarke/R-archaeology-lesson' }}
-        env:
-          BUILD_DIR: _site/
-          GH_PAT: ${{ secrets.GH_PAT }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _site/
