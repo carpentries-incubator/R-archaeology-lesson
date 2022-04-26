@@ -16,7 +16,7 @@ source("setup.R")
 > * Install and load packages.
 > * Describe what a data frame is.
 > * Summarize the contents of a data frame.
-> * Use indexing to subset specific portions of data frames. 
+> * Use indexing to subset specific portions of data frames.
 > * Describe what a factor is.
 > * Convert between strings and factors.
 > * Reorder and rename factors.
@@ -31,25 +31,27 @@ source("setup.R")
 ### Loading the survey data
 ```
 
-We are investigating the animal species diversity and weights found within plots 
+We are investigating ceramic artefacts found within plots
 at our study site. The dataset is stored as a comma separated value (CSV) file.
-Each row holds information for a single animal, and the columns represent:
+Each row holds information for a single artefact, and the columns represent:
 
-| Column           | Description                                  |
-|------------------|----------------------------------------------|
-| record\_id       | Unique id for the observation                |
-| month            | month of observation                         |
-| day              | day of observation                           |
-| year             | year of observation                          |
-| plot\_id         | ID of a particular experimental plot of land |
-| species\_id      | 2-letter code                                |
-| sex              | sex of animal ("M", "F")                     |
-| hindfoot\_length | length of the hindfoot in mm                 |
-| weight           | weight of the animal in grams                |
-| genus            | genus of animal                              |
-| species          | species of animal                            |
-| taxon            | e.g. Rodent, Reptile, Bird, Rabbit           |
-| plot\_type       | type of plot                                 |
+| Column                 | Description                                  |
+|------------------------|----------------------------------------------|
+| record\_id             | Unique id for the observation                |
+| month                  | month of observation                         |
+| day                    | day of observation                           |
+| year                   | year of observation                          |
+| plot\_id               | ID of a particular experimental plot of land |
+| period                 | Period of artefact                           |
+| diagnostic             | diagnostic method used ("base", "rim")       |
+| length                 | length of the artefact in mm                 |
+| weight                 | weight of the artefact in grams              |
+| decoration\_type       | type of decoration                           |
+| ceramic_type           | type of vessel                               |
+| manufacture\_technique | method of manufacture (e.g. coil, wheel)     |
+| recovery\_method       | e.g random survey                            |
+
+Note that this is a mock data set so some of the values may not make sense!
 
 ### Downloading the data
 
@@ -58,39 +60,39 @@ that contains the survey data from Figshare, and we will use `read_csv()` to
 load the content of the CSV file into R.
 
 Inside the `download.file` command, the first entry is a character string with the
-source URL ("https://ndownloader.figshare.com/files/2292169"). 
+source URL ("https://zenodo.org/record/6478181/files/ceramics_data.csv?download=1").
 This source URL downloads a CSV file from figshare. The text after the comma
-("data_raw/portal_data_joined.csv") is the destination of the file on your local
-machine. You'll need to have a folder on your machine called "data_raw" where 
-you'll download the file. So this command downloads a file from Figshare, names 
-it "portal_data_joined.csv" and adds it to a preexisting folder named "data_raw".
+("data_raw/ceramics_data.csv") is the destination of the file on your local
+machine. You'll need to have a folder on your machine called "data_raw" where
+you'll download the file. So this command downloads a file from Figshare, names
+it "ceramics_data.csv" and adds it to a preexisting folder named "data_raw".
 
 ```{r, eval=FALSE, purl=TRUE}
-download.file(url = "https://ndownloader.figshare.com/files/2292169",
-              destfile = "data_raw/portal_data_joined.csv")
+download.file(url = "https://zenodo.org/record/6478181/files/ceramics_data.csv?download=1",
+              destfile = "data_raw/ceramics_data.csv")
 ```
 
 
 ### Reading the data into R
 
-The file has now been downloaded to the destination you specified, but R has not 
-yet loaded the data from the file into memory. To do this, we can use the 
-`read_csv()` function from the **`tidyverse`** package. 
+The file has now been downloaded to the destination you specified, but R has not
+yet loaded the data from the file into memory. To do this, we can use the
+`read_csv()` function from the **`tidyverse`** package.
 
 Packages in R are basically sets of additional functions that let you do more
 stuff. The functions we've been using so far, like `round()`, `sqrt()`, or `c()`
-come built into R. Packages give you access to additional functions beyond base R. 
-A similar function to `read_csv()` from the tidyverse package is `read.csv()` from 
-base R. We don't have time to cover their differences but notice that the exact 
+come built into R. Packages give you access to additional functions beyond base R.
+A similar function to `read_csv()` from the tidyverse package is `read.csv()` from
+base R. We don't have time to cover their differences but notice that the exact
 spelling determines which function is used.
-Before you use a package for the first time you need to install it on your 
-machine, and then you should import it in every subsequent R session when you 
-need it. 
+Before you use a package for the first time you need to install it on your
+machine, and then you should import it in every subsequent R session when you
+need it.
 
-To install the **`tidyverse`** package, we can type 
-`install.packages("tidyverse")` straight into the console. In fact, it's better 
-to write this in the console than in our script for any package, as there's no 
-need to re-install packages every time we run the script. 
+To install the **`tidyverse`** package, we can type
+`install.packages("tidyverse")` straight into the console. In fact, it's better
+to write this in the console than in our script for any package, as there's no
+need to re-install packages every time we run the script.
 Then, to load the package type:
 
 ```{r, message = FALSE, purl = FALSE}
@@ -98,38 +100,38 @@ Then, to load the package type:
 library(tidyverse)
 ```
 
-Now we can use the functions from the **`tidyverse`** package. 
-Let's use `read_csv()` to read the data into a data frame 
+Now we can use the functions from the **`tidyverse`** package.
+Let's use `read_csv()` to read the data into a data frame
 (we will learn more about data frames later):
 
 ```{r, eval=TRUE,  purl=FALSE}
-surveys <- read_csv("data_raw/portal_data_joined.csv")
+surveys <- read_csv("data_raw/ceramics_data.csv")
 ```
 
-When you execute `read_csv` on a data file, it looks through the first 1000 rows 
+When you execute `read_csv` on a data file, it looks through the first 1000 rows
 of each column and guesses its data type. For example, in this dataset,
-`read_csv()` reads `weight` as `col_double` (a numeric data type), and `species` 
+`read_csv()` reads `length` as `col_double` (a numeric data type), and `decoration_type`
 as `col_character`. You have the option to specify the data type for a column
 manually by using the `col_types` argument in `read_csv`.
 
-We can see the contents of the first few lines of the data by typing its 
+We can see the contents of the first few lines of the data by typing its
 name: `surveys`. By default, this will show you as many rows and columns of
-the data as fit on your screen. 
+the data as fit on your screen.
 If you wanted the first 50 rows, you could type `print(surveys, n = 50)`
 
-We can also extract the first few lines of this data using the function 
+We can also extract the first few lines of this data using the function
 `head()`:
 
 ```{r, results='show', purl=FALSE}
 head(surveys)
 ```
 
-Unlike the `print()` function, `head()` returns the extracted data. You could 
-use it to assign the first 100 rows of `surveys` to an object using 
-`surveys_sample <- head(surveys, 100)`. This can be useful if you want to try 
+Unlike the `print()` function, `head()` returns the extracted data. You could
+use it to assign the first 100 rows of `surveys` to an object using
+`surveys_sample <- head(surveys, 100)`. This can be useful if you want to try
 out complex computations on a subset of your data before you apply them to the
-whole data set. 
-There is a similar function that lets you extract the last few lines of the data 
+whole data set.
+There is a similar function that lets you extract the last few lines of the data
 set. It is called (you might have guessed it) `tail()`.
 
 To open the dataset in RStudio's Data Viewer, use the `view()` function:
@@ -144,13 +146,13 @@ view(surveys)
 > countries, the comma is used as a decimal separator and the semicolon (;) is
 > used as a field delineator. If you want to read in this type of files in R,
 > you can use the `read_csv2()` function. It behaves like `read_csv()` but
-> uses different parameters for the decimal and the field separators. 
-There is also the `read_tsv()` for tab separated data files and `read_delim()` 
+> uses different parameters for the decimal and the field separators.
+There is also the `read_tsv()` for tab separated data files and `read_delim()`
 > for less common formats.
-> Check out the help for `read_csv()` by typing `?read_csv` to learn more. 
+> Check out the help for `read_csv()` by typing `?read_csv` to learn more.
 >
 > In addition to the above versions of the csv format, you should develop the habits
-> of looking at and recording some parameters of your csv files. For instance, 
+> of looking at and recording some parameters of your csv files. For instance,
 > the character encoding, control characters used for line ending, date format
 > (if the date is not split into three variables), and the presence of unexpected
 > [newlines](https://en.wikipedia.org/wiki/Newline) are important characteristics of your data files.
@@ -158,10 +160,10 @@ There is also the `read_tsv()` for tab separated data files and `read_delim()`
 
 ## What are data frames?
 
-When we loaded the data into R, it got stored as an object of class `tibble`, 
-which is a special kind of data frame (the difference is not important for our 
-purposes, but you can learn more about tibbles 
-[here](https://tibble.tidyverse.org/)). 
+When we loaded the data into R, it got stored as an object of class `tibble`,
+which is a special kind of data frame (the difference is not important for our
+purposes, but you can learn more about tibbles
+[here](https://tibble.tidyverse.org/)).
 Data frames are the _de facto_ data structure for most tabular data, and what we
 use for statistics and plotting.
 Data frames can be created by hand, but most commonly they are generated by
@@ -182,7 +184,7 @@ with the function `str()`:
 ```{r, purl=FALSE}
 str(surveys)
 ```
- 
+
 ## Inspecting data frames
 
 We already saw how the functions `head()` and `str()` can be useful to check the
@@ -259,7 +261,7 @@ different classes.
 
 ```{r, purl=FALSE}
 # We can extract specific values by specifying row and column indices
-# in the format: 
+# in the format:
 # data_frame[row_index, column_index]
 # For instance, to extract the first row and column from surveys:
 surveys[1, 1]
@@ -277,19 +279,19 @@ surveys[1, ]
 surveys[, 1]
 
 # An even shorter way to select first column across all rows:
-surveys[1] # No comma! 
+surveys[1] # No comma!
 
 # To select multiple rows or columns, use vectors!
 # To select the first three rows of the 5th and 6th column
-surveys[c(1, 2, 3), c(5, 6)] 
+surveys[c(1, 2, 3), c(5, 6)]
 
 # We can use the : operator to create those vectors for us:
-surveys[1:3, 5:6] 
+surveys[1:3, 5:6]
 
 # This is equivalent to head_surveys <- head(surveys)
 head_surveys <- surveys[1:6, ]
 
-# As we've seen, when working with tibbles 
+# As we've seen, when working with tibbles
 # subsetting with single square brackets ("[]") always returns a data frame.
 # If you want a vector, use double square brackets ("[[]]")
 
@@ -314,15 +316,15 @@ Data frames can be subset by calling indices (as shown previously), but also by 
 
 ```{r, eval = FALSE, purl=FALSE}
 # As before, using single brackets returns a data frame:
-surveys["species_id"]
-surveys[, "species_id"]
+surveys["period"]
+surveys[, "period"]
 
 # Double brackets returns a vector:
-surveys[["species_id"]]
+surveys[["period"]]
 
 # We can also use the $ operator with column names instead of double brackets
 # This returns a vector:
-surveys$species_id
+surveys$period
 ```
 
 In RStudio, you can use the autocompletion feature to get the full and correct names of the columns.
@@ -392,65 +394,65 @@ In RStudio, you can use the autocompletion feature to get the full and correct n
 ```
 
 When we did `str(surveys)` we saw that several of the columns consist of
-integers. The columns `genus`, `species`, `sex`, `plot_type`, ... however, are
+integers. The columns `period`, `diagnostic`, `decoration_type`, `ceramic_type`, ... however, are
 of the class `character`.
 Arguably, these columns contain categorical data, that is, they can only take on
-a limited number of values. 
+a limited number of values.
 
-R has a special class for working with categorical data, called `factor`. 
-Factors are very useful and actually contribute to making R particularly well 
-suited to working with data. So we are going to spend a little time introducing 
+R has a special class for working with categorical data, called `factor`.
+Factors are very useful and actually contribute to making R particularly well
+suited to working with data. So we are going to spend a little time introducing
 them.
 
 Once created, factors can only contain a pre-defined set of values, known as
-*levels*. 
+*levels*.
 Factors are stored as integers associated with labels and they can be ordered or unordered. While factors look (and often behave) like character vectors, they are actually treated as integer vectors by R. So you need to be very careful when treating them as strings.
 
 When importing a data frame with `read_csv()`, the columns that contain text are not automatically coerced (=converted) into the `factor` data type, but once we have
-loaded the data we can do the conversion using the `factor()` function: 
+loaded the data we can do the conversion using the `factor()` function:
 
 ```{r, purl=FALSE}
-surveys$sex <- factor(surveys$sex)
+surveys$diagnostic <- factor(surveys$diagnostic)
 ```
 
-We can see that the conversion has worked by using the `summary()` 
+We can see that the conversion has worked by using the `summary()`
 function again. This produces a table with the counts for each factor level:
 
 ```{r, purl=FALSE}
-summary(surveys$sex)
+summary(surveys$diagnostic)
 ```
 
 By default, R always sorts levels in alphabetical order. For
 instance, if you have a factor with 2 levels:
 
 ```{r, purl=TRUE}
-sex <- factor(c("male", "female", "female", "male"))
+diagnostic <- factor(c("rim", "base", "base", "rim"))
 ```
 
-R will assign `1` to the level `"female"` and `2` to the level `"male"` (because
-`f` comes before `m`, even though the first element in this vector is
-`"male"`). You can see this by using the function `levels()` and you can find the
+R will assign `1` to the level `"base"` and `2` to the level `"rim"` (because
+`b` comes before `r`, even though the first element in this vector is
+`"rim"`). You can see this by using the function `levels()` and you can find the
 number of levels using `nlevels()`:
 
 ```{r, purl=FALSE}
-levels(sex)
-nlevels(sex)
+levels(diagnostic)
+nlevels(diagnostic)
 ```
 
 Sometimes, the order of the factors does not matter, other times you might want
 to specify the order because it is meaningful (e.g., "low", "medium", "high"),
 it improves your visualization, or it is required by a particular type of
-analysis. Here, one way to reorder our levels in the `sex` vector would be:
+analysis. Here, one way to reorder our levels in the `diagnostic` vector would be:
 
 ```{r, results=TRUE, purl=FALSE}
-sex # current order
-sex <- factor(sex, levels = c("male", "female"))
-sex # after re-ordering
+diagnostic # current order
+diagnostic <- factor(diagnostic, levels = c("rim", "base"))
+diagnostic # after re-ordering
 ```
 
 In R's memory, these factors are represented by integers (1, 2, 3), but are more
-informative than integers because factors are self describing: `"female"`,
-`"male"` is more descriptive than `1`, `2`. Which one is "male"?  You wouldn't
+informative than integers because factors are self describing: `"base"`,
+`"rim"` is more descriptive than `1`, `2`. Which one is "rim"?  You wouldn't
 be able to tell just from the integer data. Factors, on the other hand, have
 this information built in. It is particularly helpful when there are many levels
 (like the species names in our example dataset).
@@ -458,34 +460,34 @@ this information built in. It is particularly helpful when there are many levels
 
 > ### Challenge
 >
-> 1. Change the columns `taxa` and `genus` in the `surveys` data frame into a 
+> 1. Change the columns `manufacture_technique` and `decoration_type` in the `surveys` data frame into a
 >    factor.
 >
 > 2. Using the functions you learned before, can you find out...
 >
->      * How many rabbits were observed?
->      * How many different genera are in the `genus` column?
+>      * How many artefacts were manufactured using a slab technique?
+>      * How many different decoration types are in the `decoration_type` column?
 >
 > ```{r, answer=TRUE, purl=FALSE}
-> surveys$taxa <- factor(surveys$taxa)
-> surveys$genus <- factor(surveys$genus)
+> surveys$manufacture_technique <- factor(surveys$manufacture_technique)
+> surveys$decoration_type <- factor(surveys$decoration_type)
 > summary(surveys)
-> nlevels(surveys$genus)
+> nlevels(surveys$decoration_type)
 >
-> ## * how many genera: There are 26 unique genera in the `genus` column.
-> ## * how many rabbts: There are 75 rabbits in the `taxa` column.
-> ``` 
+> ## * how many genera: There are 26 unique decoration types in the `decoration_type` column.
+> ## * how many slabs: There are 75 slabs in the `manufacture_technique` column.
+> ```
 
 ```{r, echo=FALSE, purl=TRUE}
 ### Challenges:
 ###
-### 1. Change the columns `taxa` and `genus` in the `surveys` data frame into a 
+### 1. Change the columns `manufacture_technique` and `decoration_type` in the `surveys` data frame into a
 ###    factor.
 ###
 ### 2. Using the functions you learned before, can you find out...
 ###
-###      * How many rabbits were observed?
-###      * How many different genera are in the `genus` column?
+###      * How many artefacts were manufactured using a slab technique?
+###      * How many different decoration types are in the `decoration_type` column?
 
 ```
 
@@ -496,7 +498,7 @@ If you need to convert a factor to a character vector, you use
 `as.character(x)`.
 
 ```{r, purl=FALSE}
-as.character(sex)
+as.character(diagnostic)
 ```
 
 In some cases, you may have to convert factors where the levels appear as
@@ -535,51 +537,51 @@ the experiment:
 
 ```{r, purl=TRUE}
 ## bar plot of the number of females and males captured during the experiment:
-plot(surveys$sex)
+plot(surveys$diagnostic)
 ```
 
-However, as we saw when we used `summary(surveys$sex)`, there are about 1700 
-individuals for which the sex information hasn't been recorded. To show them in
-the plot, we can turn the missing values into a factor level with the 
+However, as we saw when we used `summary(surveys$diagnostic)`, there are about 1700
+individuals for which the diagnostic information hasn't been recorded. To show them in
+the plot, we can turn the missing values into a factor level with the
 `addNA()` function. We will also have to give the new factor level a label.
-We are going to work with a copy of the `sex` column, so we're not modifying the 
+We are going to work with a copy of the `diagnostic` column, so we're not modifying the
 working copy of the data frame:
 
 ```{r, results=TRUE, purl=FALSE}
-sex <- surveys$sex
-levels(sex)
-sex <- addNA(sex)
-levels(sex)
-head(sex)
-levels(sex)[3] <- "undetermined"
-levels(sex)
-head(sex)
+diagnostic <- surveys$diagnostic
+levels(diagnostic)
+diagnostic <- addNA(diagnostic)
+levels(diagnostic)
+head(diagnostic)
+levels(diagnostic)[3] <- "Unknown"
+levels(diagnostic)
+head(diagnostic)
 ```
 
-Now we can plot the data again, using `plot(sex)`.
+Now we can plot the data again, using `plot(diagnostic)`.
 
 ```{r echo=FALSE, purl=FALSE, results=TRUE}
-plot(sex)
+plot(diagnostic)
 ```
 
 > ### Challenge
 >
-> * Rename "F" and "M" to "female" and "male" respectively.
-> * Now that we have renamed the factor level to "undetermined", can you recreate the barplot such that "undetermined" is first (before "female")?
+> * Rename "base" and "rim" to "Base" and "Rim" respectively.
+> * Now that we have renamed the factor level to "unknown", can you recreate the barplot such that "Unknown" is first (before "Base")?
 >
 > ```{r, answer=TRUE, purl=FALSE}
-> levels(sex)[1:2] <- c("female", "male")
-> sex <- factor(sex, levels = c("undetermined", "female", "male"))
-> plot(sex)
+> levels(diagnostic)[1:2] <- c("Base", "Rim")
+> diagnostic <- factor(diagnostic, levels = c("Unknown", "Base", "Rim"))
+> plot(diagnostic)
 > ```
 
 
 ```{r wrong-order, results='show', echo=FALSE, purl=TRUE}
 ## Challenges
 ##
-## * Rename "F" and "M" to "female" and "male" respectively.
+## * Rename "base" and "rim" to "Base" and "Rim" respectively.
 ## * Now that we have renamed the factor level to "undetermined", can you recreate the
-##   barplot such that "undetermined" is first (before "female")
+##   barplot such that "Unknown" is first (before "Base")
 ```
 
 
@@ -647,7 +649,7 @@ plot(sex)
 >       characters; `has_kangaroo` is numeric
 >    * using `factor()` one could replace character columns with factors columns
 >    * removing the quotes in `temperature` and `northern_hemisphere` and replacing 1
->      by TRUE in the `has_kangaroo` column would give what was probably 
+>      by TRUE in the `has_kangaroo` column would give what was probably
 >      intended
 >    ```
 >
@@ -663,10 +665,10 @@ Learn more in this [RStudio tutorial](https://support.rstudio.com/hc/en-us/artic
 ## Formatting dates
 
 A common issue that new (and experienced!) R users have is
-converting date and time information into a variable that is suitable for 
-analyses. One way to store date information is to store each component of the 
-date in a separate column. Using `str()`, we can confirm that our data frame 
-does indeed have a separate column for day, month, and year, and that each of 
+converting date and time information into a variable that is suitable for
+analyses. One way to store date information is to store each component of the
+date in a separate column. Using `str()`, we can confirm that our data frame
+does indeed have a separate column for day, month, and year, and that each of
 these columns contains integer values.
 
 ```{r, eval=FALSE, purl=FALSE}
@@ -681,13 +683,13 @@ Start by loading the required package:
 library(lubridate)
 ```
 
-The **`lubridate`** package has many useful functions for working with dates. 
-These can help you extract dates from different string representations, 
-convert between timezones, calculate time differences and more. You can find 
+The **`lubridate`** package has many useful functions for working with dates.
+These can help you extract dates from different string representations,
+convert between timezones, calculate time differences and more. You can find
 an overview of them in the [lubridate cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/lubridate.pdf).
 
-Here we will use the function `ymd()`, which takes a vector representing year, 
-month, and day, and converts it to a `Date` vector. 
+Here we will use the function `ymd()`, which takes a vector representing year,
+month, and day, and converts it to a `Date` vector.
 `Date` is a class of data recognized by R as being a date and can
 be manipulated as such. The argument that the function requires is flexible,
 but, as a best practice, is a character vector formatted as "YYYY-MM-DD".
@@ -703,7 +705,7 @@ Now let's paste the year, month, and day separately - we get the same result:
 
 ```{r, purl=FALSE}
 # sep indicates the character to use to separate each component
-my_date <- ymd(paste("2015", "1", "1", sep = "-")) 
+my_date <- ymd(paste("2015", "1", "1", sep = "-"))
 str(my_date)
 ```
 
@@ -756,11 +758,11 @@ The answer is because the dates provided as input for the `ymd()` function do no
 There are several ways you could deal with situation:
 * If you have access to the raw data (e.g., field sheets) or supporting information (e.g., field trip reports/logs), check them and ensure the electronic database matches the information in the original data source.
 * If you are able to contact the person responsible for collecting the data, you could refer to them and ask for clarification.
-* You could also check the rest of the dataset for clues about the correct value for the erroneous dates. 
+* You could also check the rest of the dataset for clues about the correct value for the erroneous dates.
 * If your project has guidelines on how to correct this sort of errors, refer to them and apply any recommendations.
 * If it is not possible to ascertain the correct value for these observations, you may want to leave them as missing data.
 
-Regardless of the option you choose, it is important that you document the error and the corrections (if any) that you apply to your data. 
+Regardless of the option you choose, it is important that you document the error and the corrections (if any) that you apply to your data.
 
 ```{r, child="_page_built_on.Rmd"}
 ```

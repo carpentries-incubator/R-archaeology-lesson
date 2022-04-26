@@ -13,9 +13,9 @@ if (!file.exists("data_raw/plots.csv")) {
     download.file("https://ndownloader.figshare.com/files/3299474",
                   "data_raw/plots.csv")
 }
-if (!file.exists("data_raw/portal_data_joined.csv")) {
-    download.file("https://ndownloader.figshare.com/files/2292169",
-                  "data_raw/portal_data_joined.csv")
+if (!file.exists("data_raw/ceramics_data.csv")) {
+    download.file("https://zenodo.org/record/6478181/files/ceramics_data.csv?download=1",
+                  "data_raw/ceramics_data.csv")
 }
 
 if (!file.exists("data_raw/portal_mammals.sqlite")) {

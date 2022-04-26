@@ -9,9 +9,9 @@ editor_options:
 
 ```{r setup, echo=FALSE, message = FALSE, warning = FALSE, purl=FALSE}
 source("setup.R")
-surveys_complete <- read_csv(file = "data_raw/portal_data_joined.csv", col_types = cols()) %>%
+surveys_complete <- read_csv(file = "data_raw/ceramics_data.csv", col_types = cols()) %>%
   drop_na(weight, hindfoot_length, sex) %>%
-  group_by(species_id) %>%
+  group_by(period) %>%
   filter(n() >= 50) %>%
   ungroup()
 ```
@@ -228,23 +228,23 @@ ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) 
     geom_point(alpha = 0.1, color = "blue")
 ```
 
-Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`species_id`**:
+Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`period`**:
 
 
 ```{r color-by-species-1, purl=FALSE}
 ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1, aes(color = species_id))
+    geom_point(alpha = 0.1, aes(color = period))
 ```
 
 > ### Challenge
 >
 > Use what you just learned to create a scatter plot of `weight` over
-> `species_id` with the plot types showing in different colors.
+> `period` with the plot types showing in different colors.
 > Is this a good way to show this type of data?
 >
 > ```{r scatter-challenge-answer, answer=TRUE, purl=FALSE}
 > ggplot(data = surveys_complete,
->        mapping = aes(x = species_id, y = weight)) +
+>        mapping = aes(x = period, y = weight)) +
 >    geom_point(aes(color = plot_type))
 > ```
 
@@ -253,7 +253,7 @@ ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) 
 ### Challenge with scatter plot:
 ##
 ##  Use what you just learned to create a scatter plot of `weight`
-## over `species_id` with the plot types showing in different colors.
+## over `period` with the plot types showing in different colors.
 ## Is this a good way to show this type of data?
 ```
 
@@ -262,7 +262,7 @@ ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) 
 We can use boxplots to visualize the distribution of weight within each species:
 
 ```{r boxplot, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+ggplot(data = surveys_complete, mapping = aes(x = period, y = weight)) +
     geom_boxplot()
 ```
 
@@ -270,7 +270,7 @@ By adding points to the boxplot, we can have a better idea of the number of
 measurements and of their distribution:
 
 ```{r boxplot-with-points, purl=FALSE}
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+ggplot(data = surveys_complete, mapping = aes(x = period, y = weight)) +
     geom_boxplot(alpha = 0) +
     geom_jitter(alpha = 0.3, color = "tomato")
 ```
@@ -311,7 +311,7 @@ hidden?
 ```{r boxplot-challenge, eval = FALSE, purl = TRUE, echo = FALSE}
 ## Challenge with boxplots:
 ##  Start with the boxplot we created:
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+ggplot(data = surveys_complete, mapping = aes(x = period, y = weight)) +
   geom_boxplot(alpha = 0) +
   geom_jitter(alpha = 0.3, color = "tomato")
 
@@ -332,12 +332,12 @@ ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
 
 ## Plotting time series data
 
-Let's calculate number of counts per year for each genus. First we need
+Let's calculate number of counts per year for each decoration_type. First we need
 to group the data and count records within each group:
 
 ```{r, purl=FALSE}
 yearly_counts <- surveys_complete %>%
-  count(year, genus)
+  count(year, decoration_type)
 ```
 
 Timelapse data can be visualized as a line plot with years on the x-axis and
@@ -349,11 +349,11 @@ ggplot(data = yearly_counts, aes(x = year, y = n)) +
 ```
 
 Unfortunately, this does not work because we plotted data for all the genera
-together. We need to tell ggplot to draw a line for each genus by modifying
-the aesthetic function to include `group = genus`:
+together. We need to tell ggplot to draw a line for each decoration_type by modifying
+the aesthetic function to include `group = decoration_type`:
 
 ```{r time-series-by-species, purl = FALSE}
-ggplot(data = yearly_counts, aes(x = year, y = n, group = genus)) +
+ggplot(data = yearly_counts, aes(x = year, y = n, group = decoration_type)) +
     geom_line()
 ```
 
@@ -361,7 +361,7 @@ We will be able to distinguish genera in the plot if we add colors (using
 `color` also automatically groups the data):
 
 ```{r time-series-with-colors, purl = FALSE}
-ggplot(data = yearly_counts, aes(x = year, y = n, color = genus)) +
+ggplot(data = yearly_counts, aes(x = year, y = n, color = decoration_type)) +
     geom_line()
 ```
 
@@ -376,7 +376,7 @@ you need to use `+` and not `%>%`.
 
 ```{r integrating-the-pipe, purl=FALSE}
 yearly_counts %>%
-    ggplot(mapping = aes(x = year, y = n, color = genus)) +
+    ggplot(mapping = aes(x = year, y = n, color = decoration_type)) +
     geom_line()
 ```
 
@@ -384,8 +384,8 @@ The pipe operator can also be used to link data manipulation with consequent dat
 
 ```{r pipes-and-manipulation, purl=FALSE}
 yearly_counts_graph <- surveys_complete %>%
-    count(year, genus) %>%
-    ggplot(mapping = aes(x = year, y = n, color = genus)) +
+    count(year, decoration_type) %>%
+    ggplot(mapping = aes(x = year, y = n, color = decoration_type)) +
     geom_line()
 
 yearly_counts_graph
@@ -396,39 +396,39 @@ yearly_counts_graph
 
 `ggplot` has a special technique called *faceting* that allows the user to split
 one plot into multiple plots based on a factor included in the dataset. We will
-use it to make a time series plot for each genus:
+use it to make a time series plot for each decoration_type:
 
 ```{r first-facet, purl = FALSE}
 ggplot(data = yearly_counts, aes(x = year, y = n)) +
     geom_line() +
-    facet_wrap(facets = vars(genus))
+    facet_wrap(facets = vars(decoration_type))
 ```
 
 Now we would like to split the line in each plot by the sex of each individual
 measured. To do that we need to make counts in the data frame grouped by `year`,
-`genus`, and `sex`:
+`decoration_type`, and `sex`:
 
 ```{r, purl = FALSE}
  yearly_sex_counts <- surveys_complete %>%
-                      count(year, genus, sex)
+                      count(year, decoration_type, sex)
 ```
 
 We can now make the faceted plot by splitting further by sex using `color`
 (within a single plot):
 
-```{r facet-by-genus-and-sex, purl=FALSE}
+```{r facet-by-decoration_type-and-sex, purl=FALSE}
 ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
   geom_line() +
-  facet_wrap(facets =  vars(genus))
+  facet_wrap(facets =  vars(decoration_type))
 ```
 
-We can also facet both by sex and genus:
+We can also facet both by sex and decoration_type:
 
 ```{r average-weight-time-facet-both, purl=FALSE, fig.width=9.5}
 ggplot(data = yearly_sex_counts,
        mapping = aes(x = year, y = n, color = sex)) +
   geom_line() +
-  facet_grid(rows = vars(sex), cols =  vars(genus))
+  facet_grid(rows = vars(sex), cols =  vars(decoration_type))
 ```
 
 You can also organise the panels only by rows (or only by columns):
@@ -438,7 +438,7 @@ You can also organise the panels only by rows (or only by columns):
 ggplot(data = yearly_sex_counts,
        mapping = aes(x = year, y = n, color = sex)) +
   geom_line() +
-  facet_grid(rows = vars(genus))
+  facet_grid(rows = vars(decoration_type))
 ```
 
 ```{r average-weight-time-facet-sex-columns, purl=FALSE, fig.width=9.5, fig.height=5}
@@ -446,7 +446,7 @@ ggplot(data = yearly_sex_counts,
 ggplot(data = yearly_sex_counts,
        mapping = aes(x = year, y = n, color = sex)) +
   geom_line() +
-  facet_grid(cols = vars(genus))
+  facet_grid(cols = vars(decoration_type))
 ```
 
 
@@ -470,7 +470,7 @@ using the `theme_bw()` function:
  ggplot(data = yearly_sex_counts,
         mapping = aes(x = year, y = n, color = sex)) +
      geom_line() +
-     facet_wrap(vars(genus)) +
+     facet_wrap(vars(decoration_type)) +
      theme_bw()
 ```
 
@@ -492,11 +492,11 @@ provides a wide variety of options.
 >
 > ```{r average-weight-time-series, answer=TRUE, purl=FALSE}
 > yearly_weight <- surveys_complete %>%
->                 group_by(year, species_id) %>%
+>                 group_by(year, period) %>%
 >                  summarize(avg_weight = mean(weight))
 > ggplot(data = yearly_weight, mapping = aes(x=year, y=avg_weight)) +
 >    geom_line() +
->    facet_wrap(vars(species_id)) +
+>    facet_wrap(vars(period)) +
 >    theme_bw()
 > ```
 
@@ -521,7 +521,7 @@ and 'n' and add a title to the figure:
 ```{r number-species-year-with-right-labels, purl = FALSE}
 ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
     geom_line() +
-    facet_wrap(vars(genus)) +
+    facet_wrap(vars(decoration_type)) +
     labs(title = "Observed genera through time",
          x = "Year of observation",
          y = "Number of individuals") +
@@ -534,7 +534,7 @@ increasing the font size. This can be done with the generic `theme()` function:
 ```{r number-species-year-with-right-labels-xfont-size, purl=FALSE}
 ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
     geom_line() +
-    facet_wrap(vars(genus)) +
+    facet_wrap(vars(decoration_type)) +
     labs(title = "Observed genera through time",
         x = "Year of observation",
         y = "Number of individuals") +
@@ -551,13 +551,13 @@ After our manipulations, you may notice that the values on the x-axis are still
 not properly readable. Let's change the orientation of the labels and adjust
 them vertically and horizontally so they don't overlap. You can use a 90 degree
 angle, or experiment to find the appropriate angle for diagonally oriented
-labels. We can also modify the facet label text (`strip.text`) to italicize the genus
+labels. We can also modify the facet label text (`strip.text`) to italicize the decoration_type
 names:
 
 ```{r number-species-year-with-theme, purl=FALSE}
 ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
     geom_line() +
-    facet_wrap(vars(genus)) +
+    facet_wrap(vars(decoration_type)) +
     labs(title = "Observed genera through time",
         x = "Year of observation",
         y = "Number of individuals") +
@@ -579,7 +579,7 @@ grey_theme <- theme(axis.text.x = element_text(colour="grey20", size = 12,
                     axis.text.y = element_text(colour = "grey20", size = 12),
                     text=element_text(size = 16))
 
-ggplot(surveys_complete, aes(x = species_id, y = hindfoot_length)) +
+ggplot(surveys_complete, aes(x = period, y = hindfoot_length)) +
     geom_boxplot() +
     grey_theme
 ```
@@ -618,12 +618,12 @@ determine how much space each plot uses:
 ```{r patchwork-example, message = FALSE, purl = FALSE, fig.width = 10}
 library(patchwork)
 
-plot_weight <- ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
+plot_weight <- ggplot(data = surveys_complete, aes(x = period, y = weight)) +
   geom_boxplot() +
   labs(x = "Species", y = expression(log[10](Weight))) +
   scale_y_log10()
 
-plot_count <- ggplot(data = yearly_counts, aes(x = year, y = n, color = genus)) +
+plot_count <- ggplot(data = yearly_counts, aes(x = year, y = n, color = decoration_type)) +
   geom_line() +
   labs(x = "Year", y = "Abundance")
 
@@ -650,7 +650,7 @@ dimension and resolution of your plot by adjusting the appropriate arguments
 my_plot <- ggplot(data = yearly_sex_counts,
                   aes(x = year, y = n, color = sex)) +
     geom_line() +
-    facet_wrap(vars(genus)) +
+    facet_wrap(vars(decoration_type)) +
     labs(title = "Observed genera through time",
         x = "Year of observation",
         y = "Number of individuals") +

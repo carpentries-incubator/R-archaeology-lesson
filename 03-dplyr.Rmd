@@ -5,7 +5,7 @@ author: Data Carpentry contributors
 
 ```{r, echo=FALSE, purl=FALSE, message = FALSE}
 source("setup.R")
-surveys <- read.csv("data_raw/portal_data_joined.csv")
+surveys <- read.csv("data_raw/ceramics_data.csv")
 suppressWarnings(surveys$date <- lubridate::ymd(paste(surveys$year,
                                                       surveys$month,
                                                       surveys$day,
@@ -86,7 +86,7 @@ tidyverse package **`readr`**.
 
 
 ```{r, results = 'hide', purl = FALSE}
-surveys <- read_csv("data_raw/portal_data_joined.csv")
+surveys <- read_csv("data_raw/ceramics_data.csv")
 ```
 
 ```{r, results = 'hide', purl = FALSE}
@@ -115,18 +115,18 @@ to this function is the data frame (`surveys`), and the subsequent
 arguments are the columns to keep.
 
 ```{r, results = 'hide', purl = FALSE}
-select(surveys, plot_id, species_id, weight)
+select(surveys, plot_id, period, weight)
 ```
 
 To select all columns *except* certain ones, put a "-" in front of
 the variable to exclude it.
 
 ```{r, results = 'hide', purl = FALSE}
-select(surveys, -record_id, -species_id)
+select(surveys, -record_id, -period)
 ```
 
 This will select all the variables in `surveys` except `record_id`
-and `species_id`.
+and `period`.
 
 To choose rows based on a specific criterion, use `filter()`:
 
@@ -144,7 +144,7 @@ that as input to the next function, like this:
 
 ```{r, purl = FALSE}
 surveys2 <- filter(surveys, weight < 5)
-surveys_sml <- select(surveys2, species_id, sex, weight)
+surveys_sml <- select(surveys2, period, sex, weight)
 ```
 
 This is readable, but can clutter up your workspace with lots of objects that you have to name individually. With multiple steps, that can be hard to keep track of.
@@ -152,7 +152,7 @@ This is readable, but can clutter up your workspace with lots of objects that yo
 You can also nest functions (i.e. one function inside of another), like this:
 
 ```{r, purl = FALSE}
-surveys_sml <- select(filter(surveys, weight < 5), species_id, sex, weight)
+surveys_sml <- select(filter(surveys, weight < 5), period, sex, weight)
 ```
 
 This is handy, but can be difficult to read if too many functions are nested, as
@@ -169,19 +169,19 @@ with **`dplyr`**. If you use RStudio, you can type the pipe with <kbd>Ctrl</kbd>
 ```{r, purl = FALSE}
 surveys %>%
   filter(weight < 5) %>%
-  select(species_id, sex, weight)
+  select(period, sex, weight)
 ```
 
 In the above code, we use the pipe to send the `surveys` dataset first through
 `filter()` to keep rows where `weight` is less than 5, then through `select()`
-to keep only the `species_id`, `sex`, and `weight` columns. Since `%>%` takes
+to keep only the `period`, `sex`, and `weight` columns. Since `%>%` takes
 the object on its left and passes it as the first argument to the function on
 its right, we don't need to explicitly include the data frame as an argument
 to the `filter()` and `select()` functions any more.
 
 Some may find it helpful to read the pipe like the word "then." For instance,
 in the example above, we took the data frame `surveys`, *then* we `filter`ed
-for rows with `weight < 5`, *then* we `select`ed columns `species_id`, `sex`,
+for rows with `weight < 5`, *then* we `select`ed columns `period`, `sex`,
 and `weight`. The **`dplyr`** functions by themselves are somewhat simple,
 but by combining them into linear workflows with the pipe we can accomplish
 more complex manipulations of data frames.
@@ -192,7 +192,7 @@ can assign it a new name:
 ```{r, purl = FALSE}
 surveys_sml <- surveys %>%
   filter(weight < 5) %>%
-  select(species_id, sex, weight)
+  select(period, sex, weight)
 
 surveys_sml
 ```
@@ -264,7 +264,7 @@ symbol negates the result, so we're asking for every row where weight *is not* a
 > ### Challenge {.challenge}
 >
 >  Create a new data frame from the `surveys` data that meets the following
->  criteria: contains only the `species_id` column and a new column called
+>  criteria: contains only the `period` column and a new column called
 >  `hindfoot_cm` containing the `hindfoot_length` values (currently in mm)
 >  converted to centimeters.
 >  In this `hindfoot_cm` column, there are no `NA`s and all values are less
@@ -277,14 +277,14 @@ symbol negates the result, so we're asking for every row where weight *is not* a
 >     filter(!is.na(hindfoot_length)) %>%
 >     mutate(hindfoot_cm = hindfoot_length / 10) %>%
 >     filter(hindfoot_cm < 3) %>%
->     select(species_id, hindfoot_cm)
+>     select(period, hindfoot_cm)
 > ```
 
 
 ```{r, eval=FALSE, purl=TRUE, echo=FALSE}
 ## Mutate Challenge:
 ##  Create a new data frame from the `surveys` data that meets the following
-##  criteria: contains only the `species_id` column and a new column called
+##  criteria: contains only the `period` column and a new column called
 ##  `hindfoot_cm` containing the `hindfoot_length` values converted to centimeters.
 ##  In this `hindfoot_cm` column, there are no `NA`s and all values are less
 ##  than 3.
@@ -320,7 +320,7 @@ You can also group by multiple columns:
 
 ```{r, purl = FALSE}
 surveys %>%
-  group_by(sex, species_id) %>%
+  group_by(sex, period) %>%
   summarize(mean_weight = mean(weight, na.rm = TRUE)) %>%
   tail()
 ```
@@ -338,7 +338,7 @@ statistics on weight. Because the missing values are removed first, we can omit
 ```{r, purl = FALSE}
 surveys %>%
   filter(!is.na(weight)) %>%
-  group_by(sex, species_id) %>%
+  group_by(sex, period) %>%
   summarize(mean_weight = mean(weight))
 ```
 
@@ -350,7 +350,7 @@ display:
 ```{r, purl = FALSE}
 surveys %>%
   filter(!is.na(weight)) %>%
-  group_by(sex, species_id) %>%
+  group_by(sex, period) %>%
   summarize(mean_weight = mean(weight)) %>%
   print(n = 15)
 ```
@@ -362,7 +362,7 @@ column indicating the minimum weight for each species for each sex:
 ```{r, purl = FALSE}
 surveys %>%
   filter(!is.na(weight)) %>%
-  group_by(sex, species_id) %>%
+  group_by(sex, period) %>%
   summarize(mean_weight = mean(weight),
             min_weight = min(weight))
 ```
@@ -373,7 +373,7 @@ It is sometimes useful to rearrange the result of a query to inspect the values.
 ```{r, purl = FALSE}
 surveys %>%
   filter(!is.na(weight)) %>%
-  group_by(sex, species_id) %>%
+  group_by(sex, period) %>%
   summarize(mean_weight = mean(weight),
             min_weight = min(weight)) %>%
   arrange(min_weight)
@@ -384,7 +384,7 @@ To sort in descending order, we need to add the `desc()` function. If we want to
 ```{r, purl = FALSE}
 surveys %>%
   filter(!is.na(weight)) %>%
-  group_by(sex, species_id) %>%
+  group_by(sex, period) %>%
   summarize(mean_weight = mean(weight),
             min_weight = min(weight)) %>%
   arrange(desc(mean_weight))
@@ -452,13 +452,13 @@ the *albigula* species that are not specified for its sex (i.e. `NA`).
 > ```
 >
 > 2. Use `group_by()` and `summarize()` to find the mean, min, and max hindfoot
-> length for each species (using `species_id`). Also add the number of
+> length for each species (using `period`). Also add the number of
 > observations (hint: see `?n`).
 >
 > ```{r, answer=TRUE, purl=FALSE}
 > surveys %>%
 >     filter(!is.na(hindfoot_length)) %>%
->     group_by(species_id) %>%
+>     group_by(period) %>%
 >     summarize(
 >         mean_hindfoot_length = mean(hindfoot_length),
 >         min_hindfoot_length = min(hindfoot_length),
@@ -468,14 +468,14 @@ the *albigula* species that are not specified for its sex (i.e. `NA`).
 > ```
 >
 > 3. What was the heaviest animal measured in each year? Return the columns `year`,
-> `genus`, `species_id`, and `weight`.
+> `decoration_type`, `period`, and `weight`.
 >
 > ```{r, answer=TRUE, purl=FALSE}
 > surveys %>%
 >     filter(!is.na(weight)) %>%
 >     group_by(year) %>%
 >     filter(weight == max(weight)) %>%
->     select(year, genus, species, weight) %>%
+>     select(year, decoration_type, species, weight) %>%
 >     arrange(year)
 > ```
 
@@ -485,11 +485,11 @@ the *albigula* species that are not specified for its sex (i.e. `NA`).
 ##  1. How many animals were caught in each `plot_type` surveyed?
 
 ##  2. Use `group_by()` and `summarize()` to find the mean, min, and max
-## hindfoot length for each species (using `species_id`). Also add the number of
+## hindfoot length for each species (using `period`). Also add the number of
 ## observations (hint: see `?n`).
 
 ##  3. What was the heaviest animal measured in each year? Return the
-##  columns `year`, `genus`, `species_id`, and `weight`.
+##  columns `year`, `decoration_type`, `period`, and `weight`.
 ```
 
 ### Reshaping with gather and spread
@@ -509,16 +509,16 @@ Here we examine the fourth rule: Each type of observational unit forms a table.
 In `surveys`, the rows of `surveys` contain the values of variables associated
 with each record (the unit), values such as the weight or sex of each animal
 associated with each record. What if instead of comparing records, we
-wanted to compare the different mean weight of each genus between plots? (Ignoring `plot_type` for simplicity).
+wanted to compare the different mean weight of each decoration_type between plots? (Ignoring `plot_type` for simplicity).
 
 We'd need to create a new table where each row (the unit) is comprised of values of variables associated with each plot. In practical terms this means the values
-in `genus` would become the names of column variables and the cells would contain the values of the mean weight observed on each plot.
+in `decoration_type` would become the names of column variables and the cells would contain the values of the mean weight observed on each plot.
 
 Having created a new table, it is therefore straightforward to explore the
 relationship between the weight of different genera within, and between, the
 plots. The key point here is that we are still following a tidy data structure,
 but we have **reshaped** the data according to the observations of interest:
-average genus weight per plot instead of recordings per date.
+average decoration_type weight per plot instead of recordings per date.
 
 The opposite transformation would be to transform column names into values of
 a variable.
@@ -538,14 +538,14 @@ Further arguments include `fill` which, if set, fills in missing values with
 the value provided.
 
 Let's use `spread()` to transform surveys to find the mean weight of each
-genus in each plot over the entire survey period. We use `filter()`,
+decoration_type in each plot over the entire survey period. We use `filter()`,
 `group_by()` and `summarise()` to filter our observations and variables of
 interest, and create a new variable for the `mean_weight`.
 
 ```{r, purl=FALSE}
 surveys_gw <- surveys %>%
   filter(!is.na(weight)) %>%
-  group_by(plot_id, genus) %>%
+  group_by(plot_id, decoration_type) %>%
   summarize(mean_weight = mean(weight))
 
 str(surveys_gw)
@@ -553,32 +553,32 @@ str(surveys_gw)
 
 This yields `surveys_gw` where the observations for each plot are spread across
 multiple rows, 196 observations of 3 variables.
-Using `spread()` to key on `genus` with values from `mean_weight` this becomes
+Using `spread()` to key on `decoration_type` with values from `mean_weight` this becomes
 24 observations of 11 variables, one row for each plot.
 
 ```{r, purl=FALSE}
 surveys_spread <- surveys_gw %>%
-  spread(key = genus, value = mean_weight)
+  spread(key = decoration_type, value = mean_weight)
 
 str(surveys_spread)
 ```
 
 ![](img/spread_data_R.png)
 
-We could now plot comparisons between the weight of genera (one is called a genus, multiple are called genera) in different plots,
+We could now plot comparisons between the weight of genera (one is called a decoration_type, multiple are called genera) in different plots,
 although we may wish to fill in the missing values first.
 
 ```{r, purl=FALSE}
 surveys_gw %>%
-  spread(genus, mean_weight, fill = 0) %>%
+  spread(decoration_type, mean_weight, fill = 0) %>%
   head()
 ```
 
 #### Gathering
 
 The opposing situation could occur if we had been provided with data in the
-form of `surveys_spread`, where the genus names are column names, but we
-wish to treat them as values of a genus variable instead.
+form of `surveys_spread`, where the decoration_type names are column names, but we
+wish to treat them as values of a decoration_type variable instead.
 
 In this situation we are gathering the column names and turning them into a
 pair of new variables. One variable represents the column names as values, and
@@ -593,12 +593,12 @@ associated with the key.
 4. the names of the columns we use to fill the key variable (or to drop).
 
 To recreate `surveys_gw` from `surveys_spread` we would create a key called
-`genus` and value called `mean_weight` and use all columns except `plot_id` for
+`decoration_type` and value called `mean_weight` and use all columns except `plot_id` for
 the key variable. Here we exclude `plot_id` from being `gather()`ed.
 
 ```{r, purl=FALSE}
 surveys_gather <- surveys_spread %>%
-  gather(key = "genus", value = "mean_weight", -plot_id)
+  gather(key = "decoration_type", value = "mean_weight", -plot_id)
 
 str(surveys_gather)
 ```
@@ -616,7 +616,7 @@ adjacent, we don't even need to list them all out - instead you can use the `:` 
 
 ```{r, purl=FALSE}
 surveys_spread %>%
-  gather(key = "genus", value = "mean_weight", Baiomys:Spermophilus) %>%
+  gather(key = "decoration_type", value = "mean_weight", Baiomys:Spermophilus) %>%
   head()
 ```
 
@@ -632,7 +632,7 @@ surveys_spread %>%
 > ```{r, answer=TRUE, purl=FALSE}
 > surveys_spread_genera <- surveys %>%
 >   group_by(plot_id, year) %>%
->   summarize(n_genera = n_distinct(genus)) %>%
+>   summarize(n_genera = n_distinct(decoration_type)) %>%
 >   spread(year, n_genera)
 >
 > head(surveys_spread_genera)
@@ -724,22 +724,22 @@ observed, and filter out the rare species; then, we will extract only the
 observations for these more common species:
 
 ```{r, purl=FALSE}
-## Extract the most common species_id
+## Extract the most common period
 species_counts <- surveys_complete %>%
-    count(species_id) %>%
+    count(period) %>%
     filter(n >= 50)
 
 ## Only keep the most common species
 surveys_complete <- surveys_complete %>%
-  filter(species_id %in% species_counts$species_id)
+  filter(period %in% species_counts$period)
 ```
 
 ```{r, eval=FALSE, purl=TRUE, echo=FALSE}
 ### Create the dataset for exporting:
-##  Start by removing observations for which the `species_id`, `weight`,
+##  Start by removing observations for which the `period`, `weight`,
 ##  `hindfoot_length`, or `sex` data are missing:
 surveys_complete <- surveys %>%
-    filter(species_id != "",        # remove missing species_id
+    filter(period != "",        # remove missing period
            !is.na(weight),                 # remove missing weight
            !is.na(hindfoot_length),        # remove missing hindfoot_length
            sex != "")                      # remove missing sex
@@ -747,13 +747,13 @@ surveys_complete <- surveys %>%
 ##  Now remove rare species in two steps. First, make a list of species which
 ##  appear at least 50 times in our dataset:
 species_counts <- surveys_complete %>%
-    count(species_id) %>%
+    count(period) %>%
     filter(n >= 50) %>%
-    select(species_id)
+    select(period)
 
 ##  Second, keep only those species:
 surveys_complete <- surveys_complete %>%
-    filter(species_id %in% species_counts$species_id)
+    filter(period %in% species_counts$period)
 ```
 
 To make sure that everyone has the same data set, check that `surveys_complete`
