@@ -585,7 +585,7 @@ div.tocify {
 <ul>
 <li>define an aesthetic mapping (using the aesthetic (<code>aes</code>) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g., as x/y positions or characteristics such as size, shape, color, etc.</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> diameter, <span class="dt">y =</span> length))</a></code></pre></div>
 <ul>
 <li><p>add ‘geoms’ – graphical representations of the data in the plot (points, lines, bars). <strong><code>ggplot2</code></strong> offers many different geoms; we will use some common ones today, including:</p>
 <ul>
@@ -595,13 +595,13 @@ div.tocify {
 </ul></li>
 </ul>
 <p>To add a geom to the plot use <code>+</code> operator. Because we have two continuous variables, let’s use <code>geom_point()</code> first:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> diameter, <span class="dt">y =</span> length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p><img src="img/R-archaeology-first-ggplot-1.png" width="672" /></p>
 <p>The <code>+</code> in the <strong><code>ggplot2</code></strong> package is particularly useful because it allows you to modify existing <code>ggplot</code> objects. This means you can easily set up plot “templates” and conveniently explore different types of plots, so the above plot can also be generated with code like this:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Assign plot to a variable</span></a>
 <a class="sourceLine" id="cb7-2" title="2">surveys_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete,</a>
-<a class="sourceLine" id="cb7-3" title="3">                       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length))</a>
+<a class="sourceLine" id="cb7-3" title="3">                       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> diameter, <span class="dt">y =</span> length))</a>
 <a class="sourceLine" id="cb7-4" title="4"></a>
 <a class="sourceLine" id="cb7-5" title="5"><span class="co"># Draw the plot</span></a>
 <a class="sourceLine" id="cb7-6" title="6">surveys_plot <span class="op">+</span></a>
@@ -637,32 +637,32 @@ div.tocify {
 <div id="building-your-plots-iteratively" class="section level2">
 <h2>Building your plots iteratively</h2>
 <p>Building plots with <strong><code>ggplot2</code></strong> is typically an iterative process. We start by defining the dataset we’ll use, lay out the axes, and choose a geom:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> diameter, <span class="dt">y =</span> length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb11-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p><img src="img/R-archaeology-create-ggplot-object-1.png" width="672" /></p>
 <p>Then, we start modifying this plot to extract more information from it. For instance, we can add transparency (<code>alpha</code>) to avoid overplotting:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> diameter, <span class="dt">y =</span> length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb12-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.1</span>)</a></code></pre></div>
 <p><img src="img/R-archaeology-adding-transparency-1.png" width="672" /></p>
 <p>We can also add colors for all the points:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> diameter, <span class="dt">y =</span> length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb13-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.1</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
 <p><img src="img/R-archaeology-adding-colors-1.png" width="672" /></p>
-<p>Or to color each species in the plot differently, you could use a vector as an input to the argument <strong>color</strong>. <strong><code>ggplot2</code></strong> will provide a different color corresponding to different values in the vector. Here is an example where we color with <strong><code>species_id</code></strong>:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> weight, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.1</span>, <span class="kw">aes</span>(<span class="dt">color =</span> species_id))</a></code></pre></div>
-<p><img src="img/R-archaeology-color-by-species-1-1.png" width="672" /></p>
+<p>Or to color each period in the plot differently, you could use a vector as an input to the argument <strong>color</strong>. <strong><code>ggplot2</code></strong> will provide a different color corresponding to different values in the vector. Here is an example where we color with <strong><code>period</code></strong>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> diameter, <span class="dt">y =</span> length)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.1</span>, <span class="kw">aes</span>(<span class="dt">color =</span> period))</a></code></pre></div>
+<p><img src="img/R-archaeology-color-by-decoration-type-1-1.png" width="672" /></p>
 <blockquote>
 <h3 id="challenge">Challenge</h3>
-<p>Use what you just learned to create a scatter plot of <code>weight</code> over <code>species_id</code> with the plot types showing in different colors. Is this a good way to show this type of data?</p>
+<p>Use what you just learned to create a scatter plot of <code>diameter</code> over <code>period</code> with the plot types showing in different colors. Is this a good way to show this type of data?</p>
 <div class="accordion">
 <h3 class="toc-ignore">
 Answer
 </h3>
 <div style="background: #fff;">
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete,</a>
-<a class="sourceLine" id="cb15-2" title="2">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> species_id, <span class="dt">y =</span> weight)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-3" title="3"><span class="st">   </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> plot_type))</a></code></pre></div>
+<a class="sourceLine" id="cb15-2" title="2">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> period, <span class="dt">y =</span> diameter)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="st">   </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color =</span> recovery_method))</a></code></pre></div>
 <img src="img/R-archaeology-scatter-challenge-answer-1.png" width="672" />
 </div>
 </div>
@@ -670,14 +670,17 @@ Answer
 </div>
 <div id="boxplot" class="section level2">
 <h2>Boxplot</h2>
-<p>We can use boxplots to visualize the distribution of weight within each species:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> species_id, <span class="dt">y =</span> weight)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="st">    </span><span class="kw">geom_boxplot</span>()</a></code></pre></div>
+<p>We can use boxplots to visualize the distribution of diameter within each period:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> period, <span class="dt">y =</span> diameter)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
 <p><img src="img/R-archaeology-boxplot-1.png" width="672" /></p>
+<p>The <code>theme</code> call angles the x-axis labels to 45 degrees so they don’t overlap: we will learn more about <code>theme</code> later in the lesson.</p>
 <p>By adding points to the boxplot, we can have a better idea of the number of measurements and of their distribution:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> species_id, <span class="dt">y =</span> weight)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> period, <span class="dt">y =</span> diameter)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb17-2" title="2"><span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha =</span> <span class="dv">0</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-3" title="3"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">color =</span> <span class="st">&quot;tomato&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb17-3" title="3"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">color =</span> <span class="st">&quot;tomato&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
 <p><img src="img/R-archaeology-boxplot-with-points-1.png" width="672" /></p>
 <p>Notice how the boxplot layer is behind the jitter layer? What do you need to change in the code to put the boxplot in front of the points such that it’s not hidden?</p>
 <blockquote>
@@ -688,11 +691,11 @@ Answer
 </ul>
 <p>In many types of data, it is important to consider the <em>scale</em> of the observations. For example, it may be worth changing the scale of the axis to better distribute the observations in the space of the plot. Changing the scale of the axes is done similarly to adding/modifying other components (i.e., by incrementally adding commands). Try making these modifications:</p>
 <ul>
-<li>Represent weight on the log<sub>10</sub> scale; see <code>scale_y_log10()</code>.</li>
+<li>Represent diameter on the log<sub>10</sub> scale; see <code>scale_y_log10()</code>.</li>
 </ul>
-<p>So far, we’ve looked at the distribution of weight within species. Try making a new plot to explore the distribution of another variable within each species.</p>
+<p>So far, we’ve looked at the distribution of diameter within periods. Try making a new plot to explore the distribution of another variable within each period.</p>
 <ul>
-<li><p>Create boxplot for <code>hindfoot_length</code>. Overlay the boxplot layer on a jitter layer to show actual measurements.</p></li>
+<li><p>Create boxplot for <code>length</code>. Overlay the boxplot layer on a jitter layer to show actual measurements.</p></li>
 <li><p>Add color to the data points on your boxplot according to the plot from which the sample was taken (<code>plot_id</code>).</p></li>
 </ul>
 </blockquote>
@@ -702,19 +705,19 @@ Answer
 </div>
 <div id="plotting-time-series-data" class="section level2">
 <h2>Plotting time series data</h2>
-<p>Let’s calculate number of counts per year for each genus. First we need to group the data and count records within each group:</p>
+<p>Let’s calculate number of counts per year for each decoration_type. First we need to group the data and count records within each group:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">yearly_counts &lt;-<span class="st"> </span>surveys_complete <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="st">  </span><span class="kw">count</span>(year, genus)</a></code></pre></div>
+<a class="sourceLine" id="cb18-2" title="2"><span class="st">  </span><span class="kw">count</span>(year, decoration_type)</a></code></pre></div>
 <p>Timelapse data can be visualized as a line plot with years on the x-axis and counts on the y-axis:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb19-2" title="2"><span class="st">     </span><span class="kw">geom_line</span>()</a></code></pre></div>
 <p><img src="img/R-archaeology-first-time-series-1.png" width="672" /></p>
-<p>Unfortunately, this does not work because we plotted data for all the genera together. We need to tell ggplot to draw a line for each genus by modifying the aesthetic function to include <code>group = genus</code>:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">group =</span> genus)) <span class="op">+</span></a>
+<p>Unfortunately, this does not work because we plotted data for all the decoration types together. We need to tell ggplot to draw a line for each decoration_type by modifying the aesthetic function to include <code>group = decoration_type</code>:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">group =</span> decoration_type)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb20-2" title="2"><span class="st">    </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="img/R-archaeology-time-series-by-species-1.png" width="672" /></p>
-<p>We will be able to distinguish genera in the plot if we add colors (using <code>color</code> also automatically groups the data):</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> genus)) <span class="op">+</span></a>
+<p><img src="img/R-archaeology-time-series-by-decoration-type-1.png" width="672" /></p>
+<p>We will be able to distinguish decoration types in the plot if we add colors (using <code>color</code> also automatically groups the data):</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> decoration_type)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb21-2" title="2"><span class="st">    </span><span class="kw">geom_line</span>()</a></code></pre></div>
 <p><img src="img/R-archaeology-time-series-with-colors-1.png" width="672" /></p>
 </div>
@@ -722,13 +725,13 @@ Answer
 <h2>Integrating the pipe operator with ggplot2</h2>
 <p>In the previous lesson, we saw how to use the pipe operator <code>%&gt;%</code> to use different functions in a sequence and create a coherent workflow. We can also use the pipe operator to pass the <code>data</code> argument to the <code>ggplot()</code> function. The hard part is to remember that to build your ggplot, you need to use <code>+</code> and not <code>%&gt;%</code>.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">yearly_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb22-2" title="2"><span class="st">    </span><span class="kw">ggplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> genus)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="st">    </span><span class="kw">ggplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> decoration_type)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb22-3" title="3"><span class="st">    </span><span class="kw">geom_line</span>()</a></code></pre></div>
 <p><img src="img/R-archaeology-integrating-the-pipe-1.png" width="672" /></p>
 <p>The pipe operator can also be used to link data manipulation with consequent data visualization.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">yearly_counts_graph &lt;-<span class="st"> </span>surveys_complete <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-2" title="2"><span class="st">    </span><span class="kw">count</span>(year, genus) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-3" title="3"><span class="st">    </span><span class="kw">ggplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> genus)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="st">    </span><span class="kw">count</span>(year, decoration_type) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="st">    </span><span class="kw">ggplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> decoration_type)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb23-4" title="4"><span class="st">    </span><span class="kw">geom_line</span>()</a>
 <a class="sourceLine" id="cb23-5" title="5"></a>
 <a class="sourceLine" id="cb23-6" title="6">yearly_counts_graph</a></code></pre></div>
@@ -736,70 +739,72 @@ Answer
 </div>
 <div id="faceting" class="section level2">
 <h2>Faceting</h2>
-<p><code>ggplot</code> has a special technique called <em>faceting</em> that allows the user to split one plot into multiple plots based on a factor included in the dataset. We will use it to make a time series plot for each genus:</p>
+<p><code>ggplot</code> has a special technique called <em>faceting</em> that allows the user to split one plot into multiple plots based on a factor included in the dataset. We will use it to make a time series plot for each decoration_type:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb24-2" title="2"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb24-3" title="3"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="dt">facets =</span> <span class="kw">vars</span>(genus))</a></code></pre></div>
+<a class="sourceLine" id="cb24-3" title="3"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="dt">facets =</span> <span class="kw">vars</span>(decoration_type))</a></code></pre></div>
 <p><img src="img/R-archaeology-first-facet-1.png" width="672" /></p>
-<p>Now we would like to split the line in each plot by the sex of each individual measured. To do that we need to make counts in the data frame grouped by <code>year</code>, <code>genus</code>, and <code>sex</code>:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"> yearly_sex_counts &lt;-<span class="st"> </span>surveys_complete <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-2" title="2"><span class="st">                      </span><span class="kw">count</span>(year, genus, sex)</a></code></pre></div>
-<p>We can now make the faceted plot by splitting further by sex using <code>color</code> (within a single plot):</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
+<p>Now we would like to split the line in each plot by the diagnostic of each individual measured. To do that we need to make counts in the data frame grouped by <code>year</code>, <code>decoration_type</code>, and <code>diagnostic</code>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"> yearly_diagnostic_counts &lt;-<span class="st"> </span>surveys_complete <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-2" title="2"><span class="st">                      </span><span class="kw">count</span>(year, decoration_type, diagnostic)</a></code></pre></div>
+<p>We can now make the faceted plot by splitting further by diagnostic using <code>color</code> (within a single plot):</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_diagnostic_counts, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> diagnostic)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb26-2" title="2"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb26-3" title="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="dt">facets =</span>  <span class="kw">vars</span>(genus))</a></code></pre></div>
-<p><img src="img/R-archaeology-facet-by-genus-and-sex-1.png" width="672" /></p>
-<p>We can also facet both by sex and genus:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts,</a>
-<a class="sourceLine" id="cb27-2" title="2">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb26-3" title="3"><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="dt">facets =</span>  <span class="kw">vars</span>(decoration_type))</a></code></pre></div>
+<p><img src="img/R-archaeology-facet-by-decoration_type-and-diagnostic-1.png" width="672" /></p>
+<p>We can also facet both by diagnostic and decoration_type:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_diagnostic_counts,</a>
+<a class="sourceLine" id="cb27-2" title="2">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> diagnostic)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb27-3" title="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb27-4" title="4"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">rows =</span> <span class="kw">vars</span>(sex), <span class="dt">cols =</span>  <span class="kw">vars</span>(genus))</a></code></pre></div>
-<p><img src="img/R-archaeology-average-weight-time-facet-both-1.png" width="912" /></p>
+<a class="sourceLine" id="cb27-4" title="4"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">rows =</span> <span class="kw">vars</span>(diagnostic), <span class="dt">cols =</span>  <span class="kw">vars</span>(decoration_type)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-5" title="5"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
+<p><img src="img/R-archaeology-average-diameter-time-facet-both-1.png" width="912" /></p>
 <p>You can also organise the panels only by rows (or only by columns):</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="co"># One column, facet by rows</span></a>
-<a class="sourceLine" id="cb28-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts,</a>
-<a class="sourceLine" id="cb28-3" title="3">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb28-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_diagnostic_counts,</a>
+<a class="sourceLine" id="cb28-3" title="3">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> diagnostic)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb28-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb28-5" title="5"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">rows =</span> <span class="kw">vars</span>(genus))</a></code></pre></div>
-<p><img src="img/R-archaeology-average-weight-time-facet-sex-rows-1.png" width="768" /></p>
+<a class="sourceLine" id="cb28-5" title="5"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">rows =</span> <span class="kw">vars</span>(decoration_type))</a></code></pre></div>
+<p><img src="img/R-archaeology-average-diameter-time-facet-diagnostic-rows-1.png" width="768" /></p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="co"># One row, facet by column</span></a>
-<a class="sourceLine" id="cb29-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts,</a>
-<a class="sourceLine" id="cb29-3" title="3">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb29-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_diagnostic_counts,</a>
+<a class="sourceLine" id="cb29-3" title="3">       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> diagnostic)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb29-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb29-5" title="5"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(genus))</a></code></pre></div>
-<p><img src="img/R-archaeology-average-weight-time-facet-sex-columns-1.png" width="912" /></p>
+<a class="sourceLine" id="cb29-5" title="5"><span class="st">  </span><span class="kw">facet_grid</span>(<span class="dt">cols =</span> <span class="kw">vars</span>(decoration_type)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb29-6" title="6"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
+<p><img src="img/R-archaeology-average-diameter-time-facet-diagnostic-columns-1.png" width="912" /></p>
 <p><strong>Note:</strong> <code>ggplot2</code> before version 3.0.0 used formulas to specify how plots are faceted. If you encounter <code>facet_grid</code>/<code>wrap(...)</code> code containing <code>~</code>, please read <a href="https://ggplot2.tidyverse.org/news/#tidy-evaluation" class="uri">https://ggplot2.tidyverse.org/news/#tidy-evaluation</a>.</p>
 </div>
 <div id="ggplot2-themes" class="section level2">
 <h2><strong><code>ggplot2</code></strong> themes</h2>
 <p>Usually plots with white background look more readable when printed. Every single component of a <code>ggplot</code> graph can be customized using the generic <code>theme()</code> function, as we will see below. However, there are pre-loaded themes available that change the overall appearance of the graph without much effort.</p>
 <p>For example, we can change our previous graph to have a simpler white background using the <code>theme_bw()</code> function:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"> <span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts,</a>
-<a class="sourceLine" id="cb30-2" title="2">        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"> <span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_diagnostic_counts,</a>
+<a class="sourceLine" id="cb30-2" title="2">        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> diagnostic)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb30-3" title="3"><span class="st">     </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb30-4" title="4"><span class="st">     </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(genus)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb30-4" title="4"><span class="st">     </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(decoration_type)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb30-5" title="5"><span class="st">     </span><span class="kw">theme_bw</span>()</a></code></pre></div>
-<p><img src="img/R-archaeology-facet-by-species-and-sex-white-bg-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-facet-by-decoration-type-and-diagnostic-white-bg-1.png" width="672" /></p>
 <p>In addition to <code>theme_bw()</code>, which changes the plot background to white, <strong><code>ggplot2</code></strong> comes with several other themes which can be useful to quickly change the look of your visualization. The complete list of themes is available at <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="uri">https://ggplot2.tidyverse.org/reference/ggtheme.html</a>. <code>theme_minimal()</code> and <code>theme_light()</code> are popular, and <code>theme_void()</code> can be useful as a starting point to create a new hand-crafted theme.</p>
 <p>The <a href="https://jrnold.github.io/ggthemes/reference/index.html">ggthemes</a> package provides a wide variety of options.</p>
 <blockquote>
 <h3 id="challenge-1">Challenge</h3>
-<p>Use what you just learned to create a plot that depicts how the average weight of each species changes through the years.</p>
+<p>Use what you just learned to create a plot that depicts how the average diameter of each period changes through the years.</p>
 <div class="accordion">
 <h3 class="toc-ignore">
 Answer
 </h3>
 <div style="background: #fff;">
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">yearly_weight &lt;-<span class="st"> </span>surveys_complete <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-2" title="2"><span class="st">                </span><span class="kw">group_by</span>(year, species_id) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-3" title="3"><span class="st">                 </span><span class="kw">summarize</span>(<span class="dt">avg_weight =</span> <span class="kw">mean</span>(weight))</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">yearly_diameter &lt;-<span class="st"> </span>surveys_complete <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-2" title="2"><span class="st">                </span><span class="kw">group_by</span>(year, period) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-3" title="3"><span class="st">                 </span><span class="kw">summarize</span>(<span class="dt">avg_diameter =</span> <span class="kw">mean</span>(diameter))</a></code></pre></div>
 <pre><code>#&gt; `summarise()` has grouped output by &#39;year&#39;. You can override using the
 #&gt; `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_weight, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>year, <span class="dt">y=</span>avg_weight)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_diameter, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x=</span>year, <span class="dt">y=</span>avg_diameter)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb33-2" title="2"><span class="st">   </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb33-3" title="3"><span class="st">   </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(species_id)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb33-3" title="3"><span class="st">   </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(period)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb33-4" title="4"><span class="st">   </span><span class="kw">theme_bw</span>()</a></code></pre></div>
-<img src="img/R-archaeology-average-weight-time-series-1.png" width="672" />
+<img src="img/R-archaeology-average-diameter-time-series-1.png" width="672" />
 </div>
 </div>
 </blockquote>
@@ -808,30 +813,30 @@ Answer
 <h2>Customization</h2>
 <p>Take a look at the <a href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization-2.1.pdf"><strong><code>ggplot2</code></strong> cheat sheet</a>, and think of ways you could improve the plot.</p>
 <p>Now, let’s change names of axes to something more informative than ‘year’ and ‘n’ and add a title to the figure:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_diagnostic_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> diagnostic)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-2" title="2"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb34-3" title="3"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(genus)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb34-4" title="4"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Observed genera through time&quot;</span>,</a>
+<a class="sourceLine" id="cb34-3" title="3"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(decoration_type)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-4" title="4"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Observed  through time&quot;</span>,</a>
 <a class="sourceLine" id="cb34-5" title="5">         <span class="dt">x =</span> <span class="st">&quot;Year of observation&quot;</span>,</a>
-<a class="sourceLine" id="cb34-6" title="6">         <span class="dt">y =</span> <span class="st">&quot;Number of individuals&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-6" title="6">         <span class="dt">y =</span> <span class="st">&quot;Number of artefacts&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-7" title="7"><span class="st">    </span><span class="kw">theme_bw</span>()</a></code></pre></div>
-<p><img src="img/R-archaeology-number-species-year-with-right-labels-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-number-decoration-type-year-with-right-labels-1.png" width="672" /></p>
 <p>The axes have more informative names, but their readability can be improved by increasing the font size. This can be done with the generic <code>theme()</code> function:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_diagnostic_counts, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> diagnostic)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb35-2" title="2"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb35-3" title="3"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(genus)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb35-4" title="4"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Observed genera through time&quot;</span>,</a>
+<a class="sourceLine" id="cb35-3" title="3"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(decoration_type)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb35-4" title="4"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Observed decoration types through time&quot;</span>,</a>
 <a class="sourceLine" id="cb35-5" title="5">        <span class="dt">x =</span> <span class="st">&quot;Year of observation&quot;</span>,</a>
-<a class="sourceLine" id="cb35-6" title="6">        <span class="dt">y =</span> <span class="st">&quot;Number of individuals&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb35-6" title="6">        <span class="dt">y =</span> <span class="st">&quot;Number of artefacts&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb35-7" title="7"><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb35-8" title="8"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">text=</span><span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>))</a></code></pre></div>
-<p><img src="img/R-archaeology-number-species-year-with-right-labels-xfont-size-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-number-decoration-type-year-with-right-labels-xfont-size-1.png" width="672" /></p>
 <p>Note that it is also possible to change the fonts of your plots. If you are on Windows, you may have to install the <a href="https://github.com/wch/extrafont"><strong><code>extrafont</code></strong> package</a>, and follow the instructions included in the README for this package.</p>
-<p>After our manipulations, you may notice that the values on the x-axis are still not properly readable. Let’s change the orientation of the labels and adjust them vertically and horizontally so they don’t overlap. You can use a 90 degree angle, or experiment to find the appropriate angle for diagonally oriented labels. We can also modify the facet label text (<code>strip.text</code>) to italicize the genus names:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
+<p>After our manipulations, you may notice that the values on the x-axis are still not properly readable. Let’s change the orientation of the labels and adjust them vertically and horizontally so they don’t overlap. You can use a 90 degree angle, or experiment to find the appropriate angle for diagonally oriented labels. We can also modify the facet label text (<code>strip.text</code>) to italicize the decoration_type names:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_diagnostic_counts, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> diagnostic)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb36-2" title="2"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb36-3" title="3"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(genus)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb36-4" title="4"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Observed genera through time&quot;</span>,</a>
+<a class="sourceLine" id="cb36-3" title="3"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(decoration_type)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb36-4" title="4"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Observed decoration types through time&quot;</span>,</a>
 <a class="sourceLine" id="cb36-5" title="5">        <span class="dt">x =</span> <span class="st">&quot;Year of observation&quot;</span>,</a>
 <a class="sourceLine" id="cb36-6" title="6">        <span class="dt">y =</span> <span class="st">&quot;Number of individuals&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb36-7" title="7"><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
@@ -839,7 +844,7 @@ Answer
 <a class="sourceLine" id="cb36-9" title="9">                        <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;grey20&quot;</span>, <span class="dt">size =</span> <span class="dv">12</span>),</a>
 <a class="sourceLine" id="cb36-10" title="10">                        <span class="dt">strip.text =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;italic&quot;</span>),</a>
 <a class="sourceLine" id="cb36-11" title="11">                        <span class="dt">text =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>))</a></code></pre></div>
-<p><img src="img/R-archaeology-number-species-year-with-theme-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-number-decoration-type-year-with-theme-1.png" width="672" /></p>
 <p>If you like the changes you created better than the default theme, you can save them as an object to be able to easily apply them to other plots you may create:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">grey_theme &lt;-<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">colour=</span><span class="st">&quot;grey20&quot;</span>, <span class="dt">size =</span> <span class="dv">12</span>,</a>
 <a class="sourceLine" id="cb37-2" title="2">                                               <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>,</a>
@@ -847,10 +852,10 @@ Answer
 <a class="sourceLine" id="cb37-4" title="4">                    <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&quot;grey20&quot;</span>, <span class="dt">size =</span> <span class="dv">12</span>),</a>
 <a class="sourceLine" id="cb37-5" title="5">                    <span class="dt">text=</span><span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">16</span>))</a>
 <a class="sourceLine" id="cb37-6" title="6"></a>
-<a class="sourceLine" id="cb37-7" title="7"><span class="kw">ggplot</span>(surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> species_id, <span class="dt">y =</span> hindfoot_length)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-7" title="7"><span class="kw">ggplot</span>(surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> period, <span class="dt">y =</span> length)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb37-8" title="8"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb37-9" title="9"><span class="st">    </span>grey_theme</a></code></pre></div>
-<p><img src="img/R-archaeology-number-species-year-with-right-labels-xfont-orientation-1.png" width="672" /></p>
+<p><img src="img/R-archaeology-number-decoration-type-year-with-right-labels-xfont-orientation-1.png" width="672" /></p>
 <blockquote>
 <h3 id="challenge-2">Challenge</h3>
 <p>With all of this information in hand, please take another five minutes to either improve one of the plots generated in this exercise or create a beautiful graph of your own. Use the RStudio <a href="https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf"><strong><code>ggplot2</code></strong> cheat sheet</a> for inspiration.</p>
@@ -869,16 +874,17 @@ Answer
 <p>After you have loaded the <code>patchwork</code> package you can use <code>+</code> to place plots next to each other, <code>/</code> to arrange them vertically, and <code>plot_layout()</code> to determine how much space each plot uses:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">library</span>(patchwork)</a>
 <a class="sourceLine" id="cb39-2" title="2"></a>
-<a class="sourceLine" id="cb39-3" title="3">plot_weight &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> species_id, <span class="dt">y =</span> weight)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-3" title="3">plot_diameter &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> surveys_complete, <span class="kw">aes</span>(<span class="dt">x =</span> period, <span class="dt">y =</span> diameter)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb39-4" title="4"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb39-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Species&quot;</span>, <span class="dt">y =</span> <span class="kw">expression</span>(log[<span class="dv">10</span>](Weight))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb39-6" title="6"><span class="st">  </span><span class="kw">scale_y_log10</span>()</a>
-<a class="sourceLine" id="cb39-7" title="7"></a>
-<a class="sourceLine" id="cb39-8" title="8">plot_count &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> genus)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb39-9" title="9"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb39-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Abundance&quot;</span>)</a>
-<a class="sourceLine" id="cb39-11" title="11"></a>
-<a class="sourceLine" id="cb39-12" title="12">plot_weight <span class="op">/</span><span class="st"> </span>plot_count <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb39-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Period&quot;</span>, <span class="dt">y =</span> <span class="kw">expression</span>(log[<span class="dv">10</span>](diameter))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-6" title="6"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-7" title="7"><span class="st">  </span><span class="kw">scale_y_log10</span>()</a>
+<a class="sourceLine" id="cb39-8" title="8"></a>
+<a class="sourceLine" id="cb39-9" title="9">plot_count &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_counts, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> decoration_type)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-10" title="10"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-11" title="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Abundance&quot;</span>)</a>
+<a class="sourceLine" id="cb39-12" title="12"></a>
+<a class="sourceLine" id="cb39-13" title="13">plot_diameter <span class="op">/</span><span class="st"> </span>plot_count <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</a></code></pre></div>
 <p><img src="img/R-archaeology-patchwork-example-1.png" width="960" /></p>
 <p>You can also use parentheses <code>()</code> to create more complex layouts. There are many useful examples on the <a href="https://patchwork.data-imaginist.com/">patchwork website</a></p>
 </div>
@@ -886,11 +892,11 @@ Answer
 <h2>Exporting plots</h2>
 <p>After creating your plot, you can save it to a file in your favorite format. The Export tab in the <strong>Plot</strong> pane in RStudio will save your plots at low resolution, which will not be accepted by many journals and will not scale well for posters. The <a href="https://exts.ggplot2.tidyverse.org/"><strong><code>ggplot2</code></strong> extensions website</a> provides a list of packages that extend the capabilities of <strong><code>ggplot2</code></strong>, including additional themes.</p>
 <p>Instead, use the <code>ggsave()</code> function, which allows you easily change the dimension and resolution of your plot by adjusting the appropriate arguments (<code>width</code>, <code>height</code> and <code>dpi</code>):</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">my_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_sex_counts,</a>
-<a class="sourceLine" id="cb40-2" title="2">                  <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> sex)) <span class="op">+</span></a>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">my_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> yearly_diagnostic_counts,</a>
+<a class="sourceLine" id="cb40-2" title="2">                  <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> diagnostic)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb40-3" title="3"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb40-4" title="4"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(genus)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb40-5" title="5"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Observed genera through time&quot;</span>,</a>
+<a class="sourceLine" id="cb40-4" title="4"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(decoration_type)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb40-5" title="5"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Observed decoration types through time&quot;</span>,</a>
 <a class="sourceLine" id="cb40-6" title="6">        <span class="dt">x =</span> <span class="st">&quot;Year of observation&quot;</span>,</a>
 <a class="sourceLine" id="cb40-7" title="7">        <span class="dt">y =</span> <span class="st">&quot;Number of individuals&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb40-8" title="8"><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
@@ -902,11 +908,11 @@ Answer
 <a class="sourceLine" id="cb40-14" title="14"><span class="kw">ggsave</span>(<span class="st">&quot;name_of_file.png&quot;</span>, my_plot, <span class="dt">width =</span> <span class="dv">15</span>, <span class="dt">height =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb40-15" title="15"></a>
 <a class="sourceLine" id="cb40-16" title="16"><span class="co">## This also works for plots combined with patchwork</span></a>
-<a class="sourceLine" id="cb40-17" title="17">plot_combined &lt;-<span class="st"> </span>plot_weight <span class="op">/</span><span class="st"> </span>plot_count <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb40-17" title="17">plot_combined &lt;-<span class="st"> </span>plot_diameter <span class="op">/</span><span class="st"> </span>plot_count <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</a>
 <a class="sourceLine" id="cb40-18" title="18"><span class="kw">ggsave</span>(<span class="st">&quot;plot_combined.png&quot;</span>, plot_combined, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">dpi =</span> <span class="dv">300</span>)</a></code></pre></div>
 <p>Note: The parameters <code>width</code> and <code>height</code> also determine the font size in the saved plot.</p>
 <p style="text-align: right; font-size: small;">
-Page built on: 📆 2022-04-25 ‒ 🕢 07:51:56
+Page built on: 📆 2022-04-28 ‒ 🕢 13:02:11
 </p>
 </div>
 

@@ -140,8 +140,8 @@ length(heights_above_67)
 ## 3. Use R to figure out how many people in the set are taller than 67 inches.
 ### Loading the survey data
 
-## download.file(url = "https://ndownloader.figshare.com/files/2292169",
-##               destfile = "data_raw/portal_data_joined.csv")
+## download.file(url = "https://zenodo.org/record/6478181/files/ceramics_data.csv?download=1",
+##               destfile = "data_raw/ceramics_data.csv")
 
 
 
@@ -202,7 +202,7 @@ length(heights_above_67)
 
 
 
-sex <- factor(c("male", "female", "female", "male"))
+diagnostic <- factor(c("rim", "base", "base", "rim"))
 
 
 
@@ -212,13 +212,13 @@ sex <- factor(c("male", "female", "female", "male"))
 
 ### Challenges:
 ###
-### 1. Change the columns `taxa` and `genus` in the `surveys` data frame into a 
+### 1. Change the columns `manufacture_technique` and `decoration_type` in the `surveys` data frame into a
 ###    factor.
 ###
 ### 2. Using the functions you learned before, can you find out...
 ###
-###      * How many rabbits were observed?
-###      * How many different genera are in the `genus` column?
+###      * How many artefacts were manufactured using a slab technique?
+###      * How many different decoration types are in the `decoration_type` column?
 
 
 
@@ -229,7 +229,7 @@ as.numeric(as.character(year_fct)) # Works...
 as.numeric(levels(year_fct))[year_fct]    # The recommended way.
 
 ## bar plot of the number of females and males captured during the experiment:
-plot(surveys$sex)
+plot(surveys$diagnostic)
 
 
 
@@ -239,9 +239,9 @@ plot(surveys$sex)
 
 ## Challenges
 ##
-## * Rename "F" and "M" to "female" and "male" respectively.
+## * Rename "base" and "rim" to "Base" and "Rim" respectively.
 ## * Now that we have renamed the factor level to "undetermined", can you recreate the
-##   barplot such that "undetermined" is first (before "female")
+##   barplot such that "Unknown" is first (before "Base")
 
 
 
@@ -269,8 +269,8 @@ plot(surveys$sex)
 ##                                northern_hemisphere = c(TRUE, TRUE, FALSE, "FALSE"),
 ##                                has_kangaroo = c(FALSE, FALSE, FALSE, 1))
 ## ## Pipes Challenge:
-## ##  Using pipes, subset the data to include animals collected
-## ##  before 1995, and retain the columns `year`, `sex`, and `weight.`
+## ##  Using pipes, subset the data to include artefacts collected
+## ##  before 1995, and retain the columns `year`, `diagnostic`, and `diameter.`
 
 
 
@@ -284,9 +284,9 @@ plot(surveys$sex)
 
 ## ## Mutate Challenge:
 ## ##  Create a new data frame from the `surveys` data that meets the following
-## ##  criteria: contains only the `species_id` column and a new column called
-## ##  `hindfoot_cm` containing the `hindfoot_length` values converted to centimeters.
-## ##  In this `hindfoot_cm` column, there are no `NA`s and all values are less
+## ##  criteria: contains only the `period` column and a new column called
+## ##  `length_cm` containing the `length` values converted to centimeters.
+## ##  In this `length_cm` column, there are no `NA`s and all values are less
 ## ##  than 3.
 ## 
 ## ##  Hint: think about how the commands should be ordered to produce this data frame!
@@ -322,14 +322,14 @@ plot(surveys$sex)
 
 
 ## ## Count Challenges:
-## ##  1. How many animals were caught in each `plot_type` surveyed?
+## ##  1. How many artefacts were caught in each `recovery_method` surveyed?
 ## 
 ## ##  2. Use `group_by()` and `summarize()` to find the mean, min, and max
-## ## hindfoot length for each species (using `species_id`). Also add the number of
+## ## length for each ceramic type (using `period`). Also add the number of
 ## ## observations (hint: see `?n`).
 ## 
-## ##  3. What was the heaviest animal measured in each year? Return the
-## ##  columns `year`, `genus`, `species_id`, and `weight`.
+## ##  3. What was the widest artefact measured in each year? Return the
+## ##  columns `year`, `decoration_type`, `period`, and `diameter`.
 
 
 
@@ -351,37 +351,37 @@ plot(surveys$sex)
 
 ## ## Reshaping challenges
 ## 
-## ## 1. Spread the `surveys` data frame with `year` as columns, `plot_id` as rows, and the number of genera per plot as the values. You will need to summarize before reshaping, and use the function `n_distinct()` to get the number of unique genera within a particular chunk of data. It's a powerful function! See `?n_distinct` for more.
+## ## 1. Spread the `surveys` data frame with `year` as columns, `plot_id` as rows, and the number of decoration_types per plot as the values. You will need to summarize before reshaping, and use the function `n_distinct()` to get the number of unique decoration_types within a particular chunk of data. It's a powerful function! See `?n_distinct` for more.
 ## 
 ## ## 2. Now take that data frame and `gather()` it again, so each row is a unique `plot_id` by `year` combination.
 ## 
-## ## 3. The `surveys` data set has two measurement columns: `hindfoot_length` and `weight`. This makes it difficult to do things like look at the relationship between mean values of each measurement per year in different plot types. Let's walk through a common solution for this type of problem. First, use `gather()` to create a dataset where we have a key column called `measurement` and a `value` column that takes on the value of either `hindfoot_length` or `weight`. *Hint*: You'll need to specify which columns are being gathered.
+## ## 3. The `surveys` data set has two measurement columns: `length` and `diameter`. This makes it difficult to do things like look at the relationship between mean values of each measurement per year in different plot types. Let's walk through a common solution for this type of problem. First, use `gather()` to create a dataset where we have a key column called `measurement` and a `value` column that takes on the value of either `length` or `diameter`. *Hint*: You'll need to specify which columns are being gathered.
 ## 
-## ## 4. With this new data set, calculate the average of each `measurement` in each `year` for each different `plot_type`. Then `spread()` them into a data set with a column for `hindfoot_length` and `weight`. *Hint*: You only need to specify the key and value columns for `spread()`.
+## ## 4. With this new data set, calculate the average of each `measurement` in each `year` for each different `recovery_method`. Then `spread()` them into a data set with a column for `length` and `diameter`. *Hint*: You only need to specify the key and value columns for `spread()`.
 
 
 
 
 
 ## ### Create the dataset for exporting:
-## ##  Start by removing observations for which the `species_id`, `weight`,
-## ##  `hindfoot_length`, or `sex` data are missing:
+## ##  Start by removing observations for which the `period`, `diameter`,
+## ##  `length`, or `diagnostic` data are missing:
 ## surveys_complete <- surveys %>%
-##     filter(species_id != "",        # remove missing species_id
-##            !is.na(weight),                 # remove missing weight
-##            !is.na(hindfoot_length),        # remove missing hindfoot_length
-##            sex != "")                      # remove missing sex
+##     filter(period != "",        # remove missing period
+##            !is.na(diameter),                 # remove missing diameter
+##            !is.na(length),        # remove missing length
+##            diagnostic != "")                      # remove missing diagnostic
 ## 
-## ##  Now remove rare species in two steps. First, make a list of species which
+## ##  Now remove rare ceramic_type in two steps. First, make a list of ceramic types which
 ## ##  appear at least 50 times in our dataset:
-## species_counts <- surveys_complete %>%
-##     count(species_id) %>%
+## ceramic_type_counts <- surveys_complete %>%
+##     count(period) %>%
 ##     filter(n >= 50) %>%
-##     select(species_id)
+##     select(period)
 ## 
-## ##  Second, keep only those species:
+## ##  Second, keep only those ceramic_type:
 ## surveys_complete <- surveys_complete %>%
-##     filter(species_id %in% species_counts$species_id)
+##     filter(period %in% ceramic_type_counts$period)
 ### Data Visualization with ggplot2
 
 
@@ -434,8 +434,8 @@ plot(surveys$sex)
 
 ## ### Challenge with scatter plot:
 ## ##
-## ##  Use what you just learned to create a scatter plot of `weight`
-## ## over `species_id` with the plot types showing in different colors.
+## ##  Use what you just learned to create a scatter plot of `diameter`
+## ## over `period` with the plot types showing in different colors.
 ## ## Is this a good way to show this type of data?
 
 
@@ -444,15 +444,15 @@ plot(surveys$sex)
 
 ## ## Challenge with boxplots:
 ## ##  Start with the boxplot we created:
-## ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+## ggplot(data = surveys_complete, mapping = aes(x = period, y = diameter)) +
 ##   geom_boxplot(alpha = 0) +
 ##   geom_jitter(alpha = 0.3, color = "tomato")
 ## 
 ## ##  1. Replace the box plot with a violin plot; see `geom_violin()`.
 ## 
-## ##  2. Represent weight on the log10 scale; see `scale_y_log10()`.
+## ##  2. Represent diameter on the log10 scale; see `scale_y_log10()`.
 ## 
-## ##  3. Create boxplot for `hindfoot_length` overlaid on a jitter layer.
+## ##  3. Create boxplot for `length` overlaid on a jitter layer.
 ## 
 ## ##  4. Add color to the data points on your boxplot according to the
 ## ##  plot from which the sample was taken (`plot_id`).
@@ -492,7 +492,7 @@ plot(surveys$sex)
 ## ### Plotting time series challenge:
 ## ##
 ## ##  Use what you just learned to create a plot that depicts how the
-## ##  average weight of each species changes through the years.
+## ##  average diameter of each period changes through the years.
 ## 
 
 
@@ -523,15 +523,15 @@ plot(surveys$sex)
 
 library(dplyr)
 library(dbplyr)
-mammals <- DBI::dbConnect(RSQLite::SQLite(), "data_raw/portal_mammals.sqlite")
+mammals <- DBI::dbConnect(RSQLite::SQLite(), "data_raw/ceramics_data.sqlite")
 
 src_dbi(mammals)
 
-tbl(mammals, sql("SELECT year, species_id, plot_id FROM surveys"))
+tbl(mammals, sql("SELECT year, period, plot_id FROM surveys"))
 
 surveys <- tbl(mammals, "surveys")
 surveys %>%
-    select(year, species_id, plot_id)
+    select(year, period, plot_id)
 
 
 
@@ -552,22 +552,22 @@ surveys %>%
 
 
 ## with dplyr syntax
-species <- tbl(mammals, "species")
+ceramic_types <- tbl(mammals, "ceramic_types")
 
-left_join(surveys, species) %>%
-  filter(taxa == "Rodent") %>%
-  group_by(taxa, year, plot_id) %>%
+left_join(surveys, ceramic_types) %>%
+  filter(manufacture_technique == "Rodent") %>%
+  group_by(manufacture_technique, year, plot_id) %>%
   tally() %>%
   collect()
 
 ## with SQL syntax
 query <- paste("
-SELECT a.year, b.taxa,count(*) as count
+SELECT a.year, b.manufacture_technique,count(*) as count
 FROM surveys a
-JOIN species b
-ON a.species_id = b.species_id
-AND b.taxa = 'Rodent'
-GROUP BY b.taxa, a.year, a.plot_id",
+JOIN ceramic_types b
+ON a.period = b.period
+AND b.manufacture_technique = 'Rodent'
+GROUP BY b.manufacture_technique, a.year, a.plot_id",
 sep = "" )
 
 tbl(mammals, sql(query))
@@ -578,14 +578,14 @@ tbl(mammals, sql(query))
 ## Write a query that returns the number of rodents observed in each
 ## plot in each year.
 
-##  Hint: Connect to the species table and write a query that joins
-##  the species and survey tables together to exclude all
+##  Hint: Connect to the ceramic_types table and write a query that joins
+##  the ceramic_types and survey tables together to exclude all
 ##  non-rodents. The query should return counts of rodents by year.
 
 ## Optional: Write a query in SQL that will produce the same
 ## result. You can join multiple tables together using the following
 ## syntax where foreign key refers to your unique id (e.g.,
-## `species_id`):
+## `period`):
 
 ## SELECT table.col, table.col
 ## FROM table1 JOIN table2
@@ -593,33 +593,33 @@ tbl(mammals, sql(query))
 ## JOIN table3 ON table2.key = table3.key
 
 
-## species <- tbl(mammals, "species")
+## ceramic_types <- tbl(mammals, "ceramic_types")
 ## genus_counts <- left_join(surveys, plots) %>%
-##   left_join(species) %>%
-##   filter(taxa == "Rodent") %>%
-##   group_by(plot_type, genus) %>%
+##   left_join(ceramic_types) %>%
+##   filter(manufacture_technique == "Rodent") %>%
+##   group_by(plot_type, decoration_type) %>%
 ##   tally() %>%
 ##   collect()
 
 ### Challenge
 
 ## Write a query that returns the total number of rodents in each
-## genus caught in the different plot types.
+## decoration_type caught in the different recovery methods.
 
-##  Hint: Write a query that joins the species, plot, and survey
-##  tables together.  The query should return counts of genus by plot
+##  Hint: Write a query that joins the ceramic_types, plot, and survey
+##  tables together.  The query should return counts of decoration_type by plot
 ##  type.
 
 
 
-download.file("https://ndownloader.figshare.com/files/3299483",
-              "data_raw/species.csv")
-download.file("https://ndownloader.figshare.com/files/10717177",
+download.file("https://zenodo.org/record/6501593/files/ceramic_types.csv?download=1",
+              "data_raw/ceramic_types.csv")
+download.file("https://zenodo.org/record/6501593/files/surveys.csv?download=1",
               "data_raw/surveys.csv")
-download.file("https://ndownloader.figshare.com/files/3299474",
+download.file("https://zenodo.org/record/6501593/files/plots.csv?download=1",
               "data_raw/plots.csv")
 library(tidyverse)
-species <- read_csv("data_raw/species.csv")
+ceramic_types <- read_csv("data_raw/ceramic_types.csv")
 surveys <- read_csv("data_raw/surveys.csv")
 plots <- read_csv("data_raw/plots.csv")
 
@@ -632,6 +632,6 @@ my_db
 
 ### Challenge
 
-## Add the remaining species table to the my_db database and run some
+## Add the remaining ceramic_types table to the my_db database and run some
 ## of your queries from earlier in the lesson to verify that you
 ## have faithfully recreated the mammals database.
