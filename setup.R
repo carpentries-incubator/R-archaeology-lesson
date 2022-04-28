@@ -2,15 +2,15 @@
 if (!file.exists("data_raw")) dir.create("data_raw")
 
 if (!file.exists("data_raw/surveys.csv")) {
-    download.file("https://ndownloader.figshare.com/files/2292172",
+    download.file("https://zenodo.org/record/6501593/files/surveys.csv?download=1",
                   "data_raw/surveys.csv")
 }
 if (!file.exists("data_raw/species.csv")) {
-    download.file("https://ndownloader.figshare.com/files/3299483",
-                  "data_raw/species.csv")
+    download.file("https://zenodo.org/record/6501593/files/ceramic_types.csv?download=1",
+                  "data_raw/ceramic_types.csv")
 }
 if (!file.exists("data_raw/plots.csv")) {
-    download.file("https://ndownloader.figshare.com/files/3299474",
+    download.file("https://zenodo.org/record/6501593/files/plots.csv?download=1",
                   "data_raw/plots.csv")
 }
 if (!file.exists("data_raw/ceramics_data.csv")) {
@@ -18,9 +18,9 @@ if (!file.exists("data_raw/ceramics_data.csv")) {
                   "data_raw/ceramics_data.csv")
 }
 
-if (!file.exists("data_raw/portal_mammals.sqlite")) {
-    download.file("https://ndownloader.figshare.com/files/2292171",
-                  "data_raw/portal_mammals.sqlite")
+if (!file.exists("data_raw/ceramics_data.sqlite")) {
+    download.file("https://zenodo.org/record/6501494/files/ceramics_data.sqlite?download=1",
+                  "data_raw/ceramics_data.sqlite")
 }
 
 

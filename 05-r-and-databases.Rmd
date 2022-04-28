@@ -97,7 +97,7 @@ system used. The **`RSQLite`** package allows R to interface with SQLite databas
 
 This command does not load the data into the R session (as the
 `read_csv()` function did). Instead, it merely instructs R to connect to
-the `SQLite` database contained in the `portal_mammals.sqlite` file.
+the `SQLite` database contained in the `ceramics_data.sqlite` file.
 
 Using a similar approach, you could connect to many other database management
 systems that are supported by R including MySQL, PostgreSQL, BigQuery, etc.
@@ -495,12 +495,12 @@ the mammals database that we've been working with, in R. First let's download an
 `csv` files.  We'll import **`tidyverse`** to gain access to the `read_csv()` function.
 
 ```{r data_frames, purl=TRUE}
-# download.file("https://ndownloader.figshare.com/files/3299483",
-#               "data_raw/ceramic_types.csv")
-# download.file("https://ndownloader.figshare.com/files/10717177",
-#               "data_raw/surveys.csv")
-# download.file("https://ndownloader.figshare.com/files/3299474",
-#               "data_raw/plots.csv")
+download.file("https://zenodo.org/record/6501593/files/ceramic_types.csv?download=1",
+              "data_raw/ceramic_types.csv")
+download.file("https://zenodo.org/record/6501593/files/surveys.csv?download=1",
+              "data_raw/surveys.csv")
+download.file("https://zenodo.org/record/6501593/files/plots.csv?download=1",
+              "data_raw/plots.csv")
 library(tidyverse)
 ceramic_types <- read_csv("data_raw/ceramic_types.csv")
 surveys <- read_csv("data_raw/surveys.csv")
