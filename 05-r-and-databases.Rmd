@@ -8,7 +8,7 @@ output:
 
 ```{r source, include=FALSE, purl=FALSE}
 source("setup.R")
-if (file.exists("portal-database.sqlite")) file.remove("portal-database.sqlite")
+if (file.exists("ceramics_data.sqlite")) file.remove("ceramics_data.sqlite")
 ```
 
 ```{r, purl=TRUE, echo=FALSE}
@@ -71,15 +71,13 @@ from previous lessons. First, we are going to install the **`dbplyr`** package:
 install.packages(c("dbplyr", "RSQLite"))
 ```
 
-The SQLite database is contained in a single file `portal_mammals.sqlite`
-that you generated during
-[the SQL lesson](https://datacarpentry.org/sql-ecology-lesson/00-sql-introduction/index.html).
-If you don't have it, you can download it from Figshare into the `data_raw` subdirectory using:
+The SQLite database is contained in a single file `ceramics_data.sqlite`. 
+Download it from Zenodo into the `data_raw` subdirectory using:
 
 ```{r download, eval = FALSE, purl=FALSE}
 dir.create("data_raw", showWarnings = FALSE)
-download.file(url = "https://ndownloader.figshare.com/files/2292171",
-              destfile = "data_raw/portal_mammals.sqlite", mode = "wb")
+download.file(url = "https://zenodo.org/record/6501494/files/ceramics_data.sqlite?download=1",
+              destfile = "data_raw/ceramics_data.sqlite", mode = "wb")
 ```
 
 ## Connecting to databases
@@ -89,7 +87,7 @@ We can point R to this database using:
 ```{r connect, purl=TRUE}
 library(dplyr)
 library(dbplyr)
-mammals <- DBI::dbConnect(RSQLite::SQLite(), "data_raw/portal_mammals.sqlite")
+mammals <- DBI::dbConnect(RSQLite::SQLite(), "data_raw/ceramics_data.sqlite")
 ```
 
 This command uses 2 packages that helps **`dbplyr`** and **`dplyr`** talk to the
@@ -115,7 +113,7 @@ multiple tables. In this case three of them are listed in the `tbls` row in the
 output above:
 
 * plots
-* species
+* ceramic_types
 * surveys
 
 Now that we know we can connect to the database, let's explore how to get
@@ -160,8 +158,8 @@ head(surveys, n = 10)
 
 This output of the `head` command looks just like a regular `data.frame`:
 The table has 9 columns and the `head()` command shows us the first 10 rows.
-Note that the columns `plot_type`, `manufacture_technique`, `decoration_type`, and `species` are missing.
-These are now located in the tables `plots` and `species` which we will join
+Note that the columns `plot_type`, `manufacture_technique`, `decoration_type`, and `ceramic_types` are missing.
+These are now located in the tables `plots` and `ceramic_types` which we will join
 together in a moment.
 
 However, some functions don't work quite as expected. For instance, let's check
@@ -232,17 +230,17 @@ To see this in action, let's compose a few queries with **`dplyr`**.
 
 ## Simple database queries
 
-First, let's only request rows of the `surveys` table in which `weight` is less
-than 5 and keep only the period, sex, and weight columns.
+First, let's only request rows of the `surveys` table in which `diameter` is less
+than 5 and keep only the period, diagnostic, and diameter columns.
 
 ```{r pipe, results='show', purl=FALSE}
 surveys %>%
-  filter(weight < 5) %>%
-  select(period, sex, weight)
+  filter(diameter < 5) %>%
+  select(period, diagnostic, diameter)
 ```
 
 Executing this command will return a table with 10 rows and the requested
-`period`, `sex` and `weight` columns. Great!
+`period`, `diagnostic` and `diameter` columns. Great!
 
 ... but wait, why are there only 10 rows?
 
@@ -270,24 +268,24 @@ When you construct a **`dplyr`** query, you can connect multiple verbs into a si
 pipeline. For example, we combined the `filter()` and `select()` verbs using the
 `%>%` pipe.
 
-If we wanted to, we could add on even more steps, e.g. remove the `sex` column
+If we wanted to, we could add on even more steps, e.g. remove the `diagnostic` column
 in an additional `select` call:
 
 ```{r pipe2, results='show', purl=FALSE}
 data_subset <- surveys %>%
-  filter(weight < 5) %>%
-  select(period, sex, weight)
+  filter(diameter < 5) %>%
+  select(period, diagnostic, diameter)
 
 data_subset %>%
-  select(-sex)
+  select(-diagnostic)
 ```
 
-Just like the first `select(period, sex, weight)` call, the `select(-sex)`
+Just like the first `select(period, diagnostic, diameter)` call, the `select(-diagnostic)`
 command is not executed by R. It is sent to the database instead. Only the
 _final_ result is retrieved and displayed to you.
 
 Of course, we could always add on more steps, e.g., we could filter by
-`period` or  minimum `weight`. That's why R doesn't retrieve the full set
+`period` or  minimum `diameter`. That's why R doesn't retrieve the full set
 of results - instead it only retrieves the first 10 results from the database
 by default. (After all, you might want to add an additional step and get the
 database to do more work...)
@@ -299,8 +297,8 @@ the R session.
 
 ```{r collect, results='markup', purl=FALSE}
 data_subset <- surveys %>%
-  filter(weight < 5) %>%
-  select(period, sex, weight) %>%
+  filter(diameter < 5) %>%
+  select(period, diagnostic, diameter) %>%
   collect()
 ```
 
@@ -374,7 +372,7 @@ retrieved.
 > Write a query that returns the number of rodents observed in each plot in
 > each year.
 >
-> Hint: Connect to the species table and write a query that joins the species
+> Hint: Connect to the ceramic_types table and write a query that joins the ceramic_types
 > and survey tables together to exclude all non-rodents.
 > The query should return counts of rodents by year.
 >
@@ -391,9 +389,9 @@ retrieved.
 >
 > ```{r left_join_answer, answer=TRUE, eval=TRUE}
 > ## with dplyr syntax
-> species <- tbl(mammals, "species")
+> ceramic_types <- tbl(mammals, "ceramic_types")
 >
-> left_join(surveys, species) %>%
+> left_join(surveys, ceramic_types) %>%
 >   filter(manufacture_technique == "Rodent") %>%
 >   group_by(manufacture_technique, year, plot_id) %>%
 >   tally() %>%
@@ -403,7 +401,7 @@ retrieved.
 > query <- paste("
 > SELECT a.year, b.manufacture_technique,count(*) as count
 > FROM surveys a
-> JOIN species b
+> JOIN ceramic_types b
 > ON a.period = b.period
 > AND b.manufacture_technique = 'Rodent'
 > GROUP BY b.manufacture_technique, a.year, a.plot_id",
@@ -420,8 +418,8 @@ retrieved.
 ## Write a query that returns the number of rodents observed in each
 ## plot in each year.
 
-##  Hint: Connect to the species table and write a query that joins
-##  the species and survey tables together to exclude all
+##  Hint: Connect to the ceramic_types table and write a query that joins
+##  the ceramic_types and survey tables together to exclude all
 ##  non-rodents. The query should return counts of rodents by year.
 
 ## Optional: Write a query in SQL that will produce the same
@@ -439,15 +437,15 @@ retrieved.
 > ### Challenge
 >
 >  Write a query that returns the total number of rodents in each decoration_type caught
->  in the different plot types.
+>  in the different recovery methods.
 >
->  Hint: Write a query that joins the species, plot, and survey tables together.
->  The query should return counts of decoration_type by plot type.
+>  Hint: Write a query that joins the ceramic_types, plot, and survey tables together.
+>  The query should return counts of decoration_type by recovery method.
 >
 > ```{r genus_by_type_answer, answer=TRUE, results='markup', eval=FALSE}
-> species <- tbl(mammals, "species")
+> ceramic_types <- tbl(mammals, "ceramic_types")
 > genus_counts <- left_join(surveys, plots) %>%
->   left_join(species) %>%
+>   left_join(ceramic_types) %>%
 >   filter(manufacture_technique == "Rodent") %>%
 >   group_by(plot_type, decoration_type) %>%
 >   tally() %>%
@@ -460,26 +458,27 @@ retrieved.
 ### Challenge
 
 ## Write a query that returns the total number of rodents in each
-## decoration_type caught in the different plot types.
+## decoration_type caught in the different recovery methods.
 
-##  Hint: Write a query that joins the species, plot, and survey
+##  Hint: Write a query that joins the ceramic_types, plot, and survey
 ##  tables together.  The query should return counts of decoration_type by plot
 ##  type.
 ```
 
 This is useful if we are interested in estimating the number of individuals
-belonging to each decoration_type found in each plot type. But what if we were interested
-in the number of genera found in each plot type? Using `tally()` gives the
+with each decoration_type found by each recovery method. But what if we were interested
+in the number of decoration types found by each recovery method? Using `tally()` gives the
 number of individuals, instead we need to use `n_distinct()` to count the
 number of unique values found in a column.
 
-```{r count_unique_genera, purl=FALSE}
-species <- tbl(mammals, "species")
-unique_genera <- left_join(surveys, plots) %>%
-    left_join(species) %>%
-    group_by(plot_type) %>%
+```{r count_unique_decoration_types, purl=FALSE}
+ceramic_types <- tbl(mammals, "ceramic_types")
+ceramic_types %>% collect()
+unique_ceramic_types <- left_join(surveys, plots) %>%
+    left_join(ceramic_types) %>%
+    group_by(recovery_method) %>%
     summarize(
-        n_genera = n_distinct(decoration_type)
+        n_decoration_types = n_distinct(decoration_type)
     ) %>%
     collect()
 ```
@@ -496,14 +495,14 @@ the mammals database that we've been working with, in R. First let's download an
 `csv` files.  We'll import **`tidyverse`** to gain access to the `read_csv()` function.
 
 ```{r data_frames, purl=TRUE}
-download.file("https://ndownloader.figshare.com/files/3299483",
-              "data_raw/species.csv")
-download.file("https://ndownloader.figshare.com/files/10717177",
-              "data_raw/surveys.csv")
-download.file("https://ndownloader.figshare.com/files/3299474",
-              "data_raw/plots.csv")
+# download.file("https://ndownloader.figshare.com/files/3299483",
+#               "data_raw/ceramic_types.csv")
+# download.file("https://ndownloader.figshare.com/files/10717177",
+#               "data_raw/surveys.csv")
+# download.file("https://ndownloader.figshare.com/files/3299474",
+#               "data_raw/plots.csv")
 library(tidyverse)
-species <- read_csv("data_raw/species.csv")
+ceramic_types <- read_csv("data_raw/ceramic_types.csv")
 surveys <- read_csv("data_raw/surveys.csv")
 plots <- read_csv("data_raw/plots.csv")
 ```
@@ -541,7 +540,7 @@ from flat files!
 
 > ### Challenge
 >
-> Add the remaining species table to the `my_db` database and run some of your
+> Add the remaining ceramic_types table to the `my_db` database and run some of your
 > queries from earlier in the lesson to verify that you have
 > faithfully recreated the mammals database.
 
@@ -549,7 +548,7 @@ from flat files!
 ```{r challenge-sql-3, purl=TRUE, echo=FALSE}
 ### Challenge
 
-## Add the remaining species table to the my_db database and run some
+## Add the remaining ceramic_types table to the my_db database and run some
 ## of your queries from earlier in the lesson to verify that you
 ## have faithfully recreated the mammals database.
 ```
