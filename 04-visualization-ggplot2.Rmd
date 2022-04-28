@@ -228,10 +228,10 @@ ggplot(data = surveys_complete, mapping = aes(x = diameter, y = length)) +
     geom_point(alpha = 0.1, color = "blue")
 ```
 
-Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`period`**:
+Or to color each period in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`period`**:
 
 
-```{r color-by-species-1, purl=FALSE}
+```{r color-by-decoration-type-1, purl=FALSE}
 ggplot(data = surveys_complete, mapping = aes(x = diameter, y = length)) +
     geom_point(alpha = 0.1, aes(color = period))
 ```
@@ -245,7 +245,7 @@ ggplot(data = surveys_complete, mapping = aes(x = diameter, y = length)) +
 > ```{r scatter-challenge-answer, answer=TRUE, purl=FALSE}
 > ggplot(data = surveys_complete,
 >        mapping = aes(x = period, y = diameter)) +
->    geom_point(aes(color = plot_type))
+>    geom_point(aes(color = recovery_method))
 > ```
 
 
@@ -259,12 +259,16 @@ ggplot(data = surveys_complete, mapping = aes(x = diameter, y = length)) +
 
 ## Boxplot
 
-We can use boxplots to visualize the distribution of diameter within each species:
+We can use boxplots to visualize the distribution of diameter within each period:
 
 ```{r boxplot, purl=FALSE}
 ggplot(data = surveys_complete, mapping = aes(x = period, y = diameter)) +
-    geom_boxplot()
+    geom_boxplot() +
+    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```
+
+The `theme` call angles the x-axis labels to 45 degrees so they don't overlap: 
+we will learn more about `theme` later in the lesson.
 
 By adding points to the boxplot, we can have a better idea of the number of
 measurements and of their distribution:
@@ -272,7 +276,8 @@ measurements and of their distribution:
 ```{r boxplot-with-points, purl=FALSE}
 ggplot(data = surveys_complete, mapping = aes(x = period, y = diameter)) +
     geom_boxplot(alpha = 0) +
-    geom_jitter(alpha = 0.3, color = "tomato")
+    geom_jitter(alpha = 0.3, color = "tomato") +
+    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```
 
 Notice how the boxplot layer is behind the jitter layer? What do you need to
@@ -296,8 +301,8 @@ hidden?
 >
 > - Represent diameter on the log~10~ scale; see `scale_y_log10()`.
 >
-> So far, we've looked at the distribution of diameter within species. Try making
-> a new plot to explore the distribution of another variable within each species.
+> So far, we've looked at the distribution of diameter within periods. Try making
+> a new plot to explore the distribution of another variable within each period.
 >
 > - Create boxplot for `length`.  Overlay the boxplot layer on a jitter
 >   layer to show actual measurements.
@@ -348,16 +353,16 @@ ggplot(data = yearly_counts, aes(x = year, y = n)) +
      geom_line()
 ```
 
-Unfortunately, this does not work because we plotted data for all the genera
+Unfortunately, this does not work because we plotted data for all the decoration types
 together. We need to tell ggplot to draw a line for each decoration_type by modifying
 the aesthetic function to include `group = decoration_type`:
 
-```{r time-series-by-species, purl = FALSE}
+```{r time-series-by-decoration-type, purl = FALSE}
 ggplot(data = yearly_counts, aes(x = year, y = n, group = decoration_type)) +
     geom_line()
 ```
 
-We will be able to distinguish genera in the plot if we add colors (using
+We will be able to distinguish decoration types in the plot if we add colors (using
 `color` also automatically groups the data):
 
 ```{r time-series-with-colors, purl = FALSE}
@@ -409,7 +414,7 @@ measured. To do that we need to make counts in the data frame grouped by `year`,
 `decoration_type`, and `diagnostic`:
 
 ```{r, purl = FALSE}
- yearly_diagnstic_counts <- surveys_complete %>%
+ yearly_diagnostic_counts <- surveys_complete %>%
                       count(year, decoration_type, diagnostic)
 ```
 
@@ -428,7 +433,8 @@ We can also facet both by diagnostic and decoration_type:
 ggplot(data = yearly_diagnostic_counts,
        mapping = aes(x = year, y = n, color = diagnostic)) +
   geom_line() +
-  facet_grid(rows = vars(diagnostic), cols =  vars(decoration_type))
+  facet_grid(rows = vars(diagnostic), cols =  vars(decoration_type)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```
 
 You can also organise the panels only by rows (or only by columns):
@@ -446,7 +452,8 @@ ggplot(data = yearly_diagnostic_counts,
 ggplot(data = yearly_diagnostic_counts,
        mapping = aes(x = year, y = n, color = diagnostic)) +
   geom_line() +
-  facet_grid(cols = vars(decoration_type))
+  facet_grid(cols = vars(decoration_type)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```
 
 
@@ -466,7 +473,7 @@ available that change the overall appearance of the graph without much effort.
 For example, we can change our previous graph to have a simpler white background
 using the `theme_bw()` function:
 
-```{r facet-by-species-and-diagnostic-white-bg, purl=FALSE}
+```{r facet-by-decoration-type-and-diagnostic-white-bg, purl=FALSE}
  ggplot(data = yearly_diagnostic_counts,
         mapping = aes(x = year, y = n, color = diagnostic)) +
      geom_line() +
@@ -488,7 +495,7 @@ provides a wide variety of options.
 > ### Challenge
 >
 > Use what you just learned to create a plot that depicts how the average diameter
-> of each species changes through the years.
+> of each period changes through the years.
 >
 > ```{r average-diameter-time-series, answer=TRUE, purl=FALSE}
 > yearly_diameter <- surveys_complete %>%
@@ -505,7 +512,7 @@ provides a wide variety of options.
 ### Plotting time series challenge:
 ##
 ##  Use what you just learned to create a plot that depicts how the
-##  average diameter of each species changes through the years.
+##  average diameter of each period changes through the years.
 
 ```
 
@@ -518,26 +525,26 @@ think of ways you could improve the plot.
 Now, let's change names of axes to something more informative than 'year'
 and 'n' and add a title to the figure:
 
-```{r number-species-year-with-right-labels, purl = FALSE}
+```{r number-decoration-type-year-with-right-labels, purl = FALSE}
 ggplot(data = yearly_diagnostic_counts, aes(x = year, y = n, color = diagnostic)) +
     geom_line() +
     facet_wrap(vars(decoration_type)) +
-    labs(title = "Observed genera through time",
+    labs(title = "Observed  through time",
          x = "Year of observation",
-         y = "Number of individuals") +
+         y = "Number of artefacts") +
     theme_bw()
 ```
 
 The axes have more informative names, but their readability can be improved by
 increasing the font size. This can be done with the generic `theme()` function:
 
-```{r number-species-year-with-right-labels-xfont-size, purl=FALSE}
+```{r number-decoration-type-year-with-right-labels-xfont-size, purl=FALSE}
 ggplot(data = yearly_diagnostic_counts, mapping = aes(x = year, y = n, color = diagnostic)) +
     geom_line() +
     facet_wrap(vars(decoration_type)) +
-    labs(title = "Observed genera through time",
+    labs(title = "Observed decoration types through time",
         x = "Year of observation",
-        y = "Number of individuals") +
+        y = "Number of artefacts") +
     theme_bw() +
     theme(text=element_text(size = 16))
 ```
@@ -554,11 +561,11 @@ angle, or experiment to find the appropriate angle for diagonally oriented
 labels. We can also modify the facet label text (`strip.text`) to italicize the decoration_type
 names:
 
-```{r number-species-year-with-theme, purl=FALSE}
+```{r number-decoration-type-year-with-theme, purl=FALSE}
 ggplot(data = yearly_diagnostic_counts, mapping = aes(x = year, y = n, color = diagnostic)) +
     geom_line() +
     facet_wrap(vars(decoration_type)) +
-    labs(title = "Observed genera through time",
+    labs(title = "Observed decoration types through time",
         x = "Year of observation",
         y = "Number of individuals") +
     theme_bw() +
@@ -572,7 +579,7 @@ If you like the changes you created better than the default theme, you can save
 them as an object to be able to easily apply them to other plots you may create:
 
 
-```{r number-species-year-with-right-labels-xfont-orientation, purl = FALSE}
+```{r number-decoration-type-year-with-right-labels-xfont-orientation, purl = FALSE}
 grey_theme <- theme(axis.text.x = element_text(colour="grey20", size = 12,
                                                angle = 90, hjust = 0.5,
                                                vjust = 0.5),
@@ -620,7 +627,8 @@ library(patchwork)
 
 plot_diameter <- ggplot(data = surveys_complete, aes(x = period, y = diameter)) +
   geom_boxplot() +
-  labs(x = "Species", y = expression(log[10](diameter))) +
+  labs(x = "Period", y = expression(log[10](diameter))) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
   scale_y_log10()
 
 plot_count <- ggplot(data = yearly_counts, aes(x = year, y = n, color = decoration_type)) +
@@ -651,7 +659,7 @@ my_plot <- ggplot(data = yearly_diagnostic_counts,
                   aes(x = year, y = n, color = diagnostic)) +
     geom_line() +
     facet_wrap(vars(decoration_type)) +
-    labs(title = "Observed genera through time",
+    labs(title = "Observed decoration types through time",
         x = "Year of observation",
         y = "Number of individuals") +
     theme_bw() +

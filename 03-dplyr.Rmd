@@ -201,7 +201,7 @@ Note that the final data frame is the leftmost part of this expression.
 
 > ### Challenge {.challenge}
 >
->  Using pipes, subset the `surveys` data to include animals collected before
+>  Using pipes, subset the `surveys` data to include artefacts collected before
 >  1995 and retain only the columns `year`, `diagnostic`, and `diameter`.
 >
 >
@@ -213,7 +213,7 @@ Note that the final data frame is the leftmost part of this expression.
 
 ```{r, eval=FALSE, purl=TRUE, echo=FALSE}
 ## Pipes Challenge:
-##  Using pipes, subset the data to include animals collected
+##  Using pipes, subset the data to include artefacts collected
 ##  before 1995, and retain the columns `year`, `diagnostic`, and `diameter.`
 ```
 
@@ -223,19 +223,19 @@ Frequently you'll want to create new columns based on the values in existing
 columns, for example to do unit conversions, or to find the ratio of values in two
 columns. For this we'll use `mutate()`.
 
-To create a new column of diameter in kg:
+To create a new column of diameter in cm:
 
 ```{r, purl = FALSE}
 surveys %>%
-  mutate(diameter_kg = diameter / 1000)
+  mutate(diameter_cm = diameter / 10)
 ```
 
 You can also create a second new column based on the first new column within the same call of `mutate()`:
 
 ```{r, purl = FALSE}
 surveys %>%
-  mutate(diameter_kg = diameter / 1000,
-         diameter_lb = diameter_kg * 2.2)
+  mutate(diameter_cm = diameter / 10,
+         diameter_in = diameter_cm / 2.5)
 ```
 
 If this runs off your screen and you just want to see the first few rows, you
@@ -244,7 +244,7 @@ functions, too, as long as the **`dplyr`** or `magrittr` package is loaded).
 
 ```{r, purl = FALSE}
 surveys %>%
-  mutate(diameter_kg = diameter / 1000) %>%
+  mutate(diameter_cm = diameter / 10) %>%
   head()
 ```
 
@@ -254,7 +254,7 @@ those we could insert a `filter()` in the chain:
 ```{r, purl = FALSE}
 surveys %>%
   filter(!is.na(diameter)) %>%
-  mutate(diameter_kg = diameter / 1000) %>%
+  mutate(diameter_cm = diameter / 10) %>%
   head()
 ```
 
@@ -327,7 +327,7 @@ surveys %>%
 
 Here, we used `tail()` to look at the last six rows of our summary. Before, we had
 used `head()` to look at the first six rows. We can see that the `diagnostic` column contains
-`NA` values because some animals had escaped before their diagnostic and body diameters
+`NA` values because some artefacts had escaped before their diagnostic and body diameters
 could be determined. The resulting `mean_diameter` column does not contain `NA` but
 `NaN` (which refers to "Not a Number") because `mean()` was called on a vector of
 `NA` values while at the same time setting `na.rm = TRUE`. To avoid this, we can
@@ -367,7 +367,9 @@ surveys %>%
             min_diameter = min(diameter))
 ```
 
-It is sometimes useful to rearrange the result of a query to inspect the values. For instance, we can sort on `min_diameter` to put the lighter ceramic_type first:
+(Note that the minimum values don't look very sensible here: remember that our dataset isn't a real one!)
+
+It is sometimes useful to rearrange the result of a query to inspect the values. For instance, we can sort on `min_diameter` to put the smaller ceramic_type first:
 
 
 ```{r, purl = FALSE}
@@ -440,18 +442,18 @@ surveys %>%
 ```
 
 From the table above, we may learn that, for instance, there are 75 observations of
-the *albigula* ceramic_type that are not specified for its diagnostic (i.e. `NA`).
+the *Bevelled-Rim Bowl* ceramic type that are not specified for its diagnostic (i.e. `NA`).
 
 > ### Challenge {.challenge}
 >
-> 1. How many animals were caught in each `plot_type` surveyed?
+> 1. How many artefacts were found for each `recovery_method`?
 >
 > ```{r, answer=TRUE, purl=FALSE}
 > surveys %>%
->     count(plot_type)
+>     count(recovery_method)
 > ```
 >
-> 2. Use `group_by()` and `summarize()` to find the mean, min, and max hindfoot
+> 2. Use `group_by()` and `summarize()` to find the mean, min, and max
 > length for each ceramic_type (using `period`). Also add the number of
 > observations (hint: see `?n`).
 >
@@ -467,7 +469,7 @@ the *albigula* ceramic_type that are not specified for its diagnostic (i.e. `NA`
 >     )
 > ```
 >
-> 3. What was the heaviest animal measured in each year? Return the columns `year`,
+> 3. What was the widest artefact measured in each year? Return the columns `year`,
 > `decoration_type`, `period`, and `diameter`.
 >
 > ```{r, answer=TRUE, purl=FALSE}
@@ -482,13 +484,13 @@ the *albigula* ceramic_type that are not specified for its diagnostic (i.e. `NA`
 
 ```{r, eval=FALSE, purl=TRUE, echo=FALSE}
 ## Count Challenges:
-##  1. How many animals were caught in each `plot_type` surveyed?
+##  1. How many artefacts were caught in each `recovery_method` surveyed?
 
 ##  2. Use `group_by()` and `summarize()` to find the mean, min, and max
-## hindfoot length for each ceramic_type (using `period`). Also add the number of
+## length for each ceramic type (using `period`). Also add the number of
 ## observations (hint: see `?n`).
 
-##  3. What was the heaviest animal measured in each year? Return the
+##  3. What was the widest artefact measured in each year? Return the
 ##  columns `year`, `decoration_type`, `period`, and `diameter`.
 ```
 
@@ -507,15 +509,15 @@ dataset:
 Here we examine the fourth rule: Each type of observational unit forms a table.
 
 In `surveys`, the rows of `surveys` contain the values of variables associated
-with each record (the unit), values such as the diameter or diagnostic of each animal
+with each record (the unit), values such as the diameter or diagnostic of each artefact
 associated with each record. What if instead of comparing records, we
-wanted to compare the different mean diameter of each decoration_type between plots? (Ignoring `plot_type` for simplicity).
+wanted to compare the different mean diameter of each decoration type between plots? (Ignoring `recovery_method` for simplicity).
 
 We'd need to create a new table where each row (the unit) is comprised of values of variables associated with each plot. In practical terms this means the values
 in `decoration_type` would become the names of column variables and the cells would contain the values of the mean diameter observed on each plot.
 
 Having created a new table, it is therefore straightforward to explore the
-relationship between the diameter of different genera within, and between, the
+relationship between the diameter of different decoration_types within, and between, the
 plots. The key point here is that we are still following a tidy data structure,
 but we have **reshaped** the data according to the observations of interest:
 average decoration_type diameter per plot instead of recordings per date.
@@ -565,7 +567,7 @@ str(surveys_spread)
 
 ![](img/spread_data_R.png)
 
-We could now plot comparisons between the diameter of genera (one is called a decoration_type, multiple are called genera) in different plots,
+We could now plot comparisons between the diameter of decoration types in different plots,
 although we may wish to fill in the missing values first.
 
 ```{r, purl=FALSE}
@@ -605,7 +607,7 @@ str(surveys_gather)
 
 ![](img/gather_data_R.png)
 
-Note that now the `NA` genera are included in the re-gathered format. Spreading
+Note that now the `NA` decoration_types are included in the re-gathered format. Spreading
 and then gathering can be a useful way to balance out a dataset so every
 replicate has the same composition.
 
@@ -624,26 +626,26 @@ surveys_spread %>%
 >
 > 1. Spread the `surveys` data frame with `year` as columns, `plot_id`
 >   as rows, and the
->   number of genera per plot as the values. You will need to summarize before
+>   number of decoration types per plot as the values. You will need to summarize before
 >   reshaping, and use the function `n_distinct()` to get the number of unique
->   genera within a particular chunk of data. It's a powerful function! See
+>   decoration_types within a particular chunk of data. It's a powerful function! See
 >   `?n_distinct` for more.
 >
 > ```{r, answer=TRUE, purl=FALSE}
-> surveys_spread_genera <- surveys %>%
+> surveys_spread_decoration_types <- surveys %>%
 >   group_by(plot_id, year) %>%
->   summarize(n_genera = n_distinct(decoration_type)) %>%
->   spread(year, n_genera)
+>   summarize(n_decoration_types = n_distinct(decoration_type)) %>%
+>   spread(year, n_decoration_types)
 >
-> head(surveys_spread_genera)
+> head(surveys_spread_decoration_types)
 > ```
 >
 > 2. Now take that data frame and `gather()` it again, so each row is a unique
 >    `plot_id` by `year` combination.
 >
 > ```{r, answer=TRUE, purl=FALSE}
-> surveys_spread_genera %>%
->   gather("year", "n_genera", -plot_id)
+> surveys_spread_decoration_types %>%
+>   gather("year", "n_decoration_types", -plot_id)
 > ```
 >
 > 3. The `surveys` data set has
@@ -661,14 +663,14 @@ surveys_spread %>%
 > ```
 >
 > 4. With this new data set, calculate the average of each
->    `measurement` in each `year` for each different `plot_type`. Then
+>    `measurement` in each `year` for each different `recovery_method`. Then
 >    `spread()` them into a data set with a column for `length` and
 >    `diameter`. *Hint*: You only need to specify the key and value
 >    columns for `spread()`.
 >
 > ```{r, answer=TRUE, purl=FALSE}
 > surveys_long %>%
->   group_by(year, measurement, plot_type) %>%
+>   group_by(year, measurement, recovery_method) %>%
 >   summarize(mean_value = mean(value, na.rm=TRUE)) %>%
 >   spread(measurement, mean_value)
 > ```
@@ -676,13 +678,13 @@ surveys_spread %>%
 ```{r, eval=FALSE, purl=TRUE, echo=FALSE}
 ## Reshaping challenges
 
-## 1. Spread the `surveys` data frame with `year` as columns, `plot_id` as rows, and the number of genera per plot as the values. You will need to summarize before reshaping, and use the function `n_distinct()` to get the number of unique genera within a particular chunk of data. It's a powerful function! See `?n_distinct` for more.
+## 1. Spread the `surveys` data frame with `year` as columns, `plot_id` as rows, and the number of decoration_types per plot as the values. You will need to summarize before reshaping, and use the function `n_distinct()` to get the number of unique decoration_types within a particular chunk of data. It's a powerful function! See `?n_distinct` for more.
 
 ## 2. Now take that data frame and `gather()` it again, so each row is a unique `plot_id` by `year` combination.
 
 ## 3. The `surveys` data set has two measurement columns: `length` and `diameter`. This makes it difficult to do things like look at the relationship between mean values of each measurement per year in different plot types. Let's walk through a common solution for this type of problem. First, use `gather()` to create a dataset where we have a key column called `measurement` and a `value` column that takes on the value of either `length` or `diameter`. *Hint*: You'll need to specify which columns are being gathered.
 
-## 4. With this new data set, calculate the average of each `measurement` in each `year` for each different `plot_type`. Then `spread()` them into a data set with a column for `length` and `diameter`. *Hint*: You only need to specify the key and value columns for `spread()`.
+## 4. With this new data set, calculate the average of each `measurement` in each `year` for each different `recovery_method`. Then `spread()` them into a data set with a column for `length` and `diameter`. *Hint*: You only need to specify the key and value columns for `spread()`.
 ```
 
 # Exporting data
@@ -706,7 +708,7 @@ re-generate them.
 In preparation for our next lesson on plotting, we are going to prepare a
 cleaned up version of the data set that doesn't include any missing data.
 
-Let's start by removing observations of animals for which `diameter` and `length` are missing, or the `diagnostic` has not been determined:
+Let's start by removing observations of artefacts for which `diameter` and `length` are missing, or the `diagnostic` has not been determined:
 
 
 ```{r, purl=FALSE}
@@ -716,12 +718,12 @@ surveys_complete <- surveys %>%
          !is.na(diagnostic))                # remove missing diagnostic
 ```
 
-Because we are interested in plotting how ceramic_type abundances have changed
+Because we are interested in plotting how ceramic type abundances have changed
 through time, we are also going to remove observations for rare ceramic_type (i.e.,
 that have been observed less than 50 times). We will do this in two steps: first
-we are going to create a data set that counts how often each ceramic_type has been
-observed, and filter out the rare ceramic_type; then, we will extract only the
-observations for these more common ceramic_type:
+we are going to create a data set that counts how often each ceramic type has been
+observed, and filter out the rare ceramic type; then, we will extract only the
+observations for these more common ceramic type:
 
 ```{r, purl=FALSE}
 ## Extract the most common period
@@ -744,7 +746,7 @@ surveys_complete <- surveys %>%
            !is.na(length),        # remove missing length
            diagnostic != "")                      # remove missing diagnostic
 
-##  Now remove rare ceramic_type in two steps. First, make a list of ceramic_type which
+##  Now remove rare ceramic_type in two steps. First, make a list of ceramic types which
 ##  appear at least 50 times in our dataset:
 ceramic_type_counts <- surveys_complete %>%
     count(period) %>%
