@@ -575,8 +575,8 @@ div.tocify {
 <p>Even better, many large datasets are already available in public or private databases. You can query them without having to download the data first.</p>
 <p>R can connect to almost any existing database type. Most common database types have R packages that allow you to connect to them (e.g., <strong><code>RSQLite</code></strong>, RMySQL, etc). Furthermore, the <a href="https://cran.r-project.org/web/packages/dplyr/index.html"><strong><code>dplyr</code></strong></a> package you used in the previous chapter, in conjunction with <a href="https://cran.r-project.org/package=dbplyr"><strong><code>dbplyr</code></strong></a> supports connecting to the widely-used open source databases <a href="https://sqlite.org/">sqlite</a>, <a href="https://www.mysql.com/">mysql</a> and <a href="https://www.postgresql.org/">postgresql</a>, as well as Google’s <a href="https://cloud.google.com/bigquery/">bigquery</a>, and it can also be extended to other database types (a <a href="https://cran.r-project.org/web/packages/dbplyr/vignettes/new-backend.html">vignette</a> in the <strong><code>dplyr</code></strong> package explains how to do it). RStudio has created <a href="http://db.rstudio.com/">a website</a> that provides documentation and best practices to work on database interfaces.</p>
 <p>Interfacing with databases using <strong><code>dplyr</code></strong> focuses on retrieving and analyzing datasets by generating <code>SELECT</code> SQL statements, but it doesn’t modify the database itself. <strong><code>dplyr</code></strong> does not offer functions to <code>UPDATE</code> or <code>DELETE</code> entries. If you need these functionalities, you will need to use additional R packages (e.g., <strong><code>RSQLite</code></strong>). Here we will demonstrate how to interact with a database using <strong><code>dplyr</code></strong>, using both the <strong><code>dplyr</code></strong>’s verb syntax and the SQL syntax.</p>
-<div id="the-portal_mammals-database" class="section level3">
-<h3>The portal_mammals database</h3>
+<div id="the-ceramics_data-database" class="section level3">
+<h3>The ceramics_data database</h3>
 <p>We will continue to explore the <code>surveys</code> data you are already familiar with from previous lessons. First, we are going to install the <strong><code>dbplyr</code></strong> package:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;dbplyr&quot;</span>, <span class="st">&quot;RSQLite&quot;</span>))</a></code></pre></div>
 <p>The SQLite database is contained in a single file <code>ceramics_data.sqlite</code>. Download it from Zenodo into the <code>data_raw</code> subdirectory using:</p>
@@ -595,12 +595,12 @@ div.tocify {
 <pre><code>#&gt; The following objects are masked from &#39;package:dplyr&#39;:
 #&gt; 
 #&gt;     ident, sql</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">mammals &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw">dbConnect</span>(RSQLite<span class="op">::</span><span class="kw">SQLite</span>(), <span class="st">&quot;data_raw/ceramics_data.sqlite&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">ceramics &lt;-<span class="st"> </span>DBI<span class="op">::</span><span class="kw">dbConnect</span>(RSQLite<span class="op">::</span><span class="kw">SQLite</span>(), <span class="st">&quot;data_raw/ceramics_data.sqlite&quot;</span>)</a></code></pre></div>
 <p>This command uses 2 packages that helps <strong><code>dbplyr</code></strong> and <strong><code>dplyr</code></strong> talk to the SQLite database. <strong><code>DBI</code></strong> is not something that you’ll use directly as a user. It allows R to send commands to databases irrespective of the database management system used. The <strong><code>RSQLite</code></strong> package allows R to interface with SQLite databases.</p>
 <p>This command does not load the data into the R session (as the <code>read_csv()</code> function did). Instead, it merely instructs R to connect to the <code>SQLite</code> database contained in the <code>ceramics_data.sqlite</code> file.</p>
 <p>Using a similar approach, you could connect to many other database management systems that are supported by R including MySQL, PostgreSQL, BigQuery, etc.</p>
-<p>Let’s take a closer look at the <code>mammals</code> database we just connected to:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">src_dbi</span>(mammals)</a></code></pre></div>
+<p>Let’s take a closer look at the <code>ceramics</code> database we just connected to:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">src_dbi</span>(ceramics)</a></code></pre></div>
 <pre><code>#&gt; src:  sqlite 3.38.2 [/home/runner/work/R-archaeology-lesson/R-archaeology-lesson/data_raw/ceramics_data.sqlite]
 #&gt; tbls: ceramic_types, plots, surveys</code></pre>
 <p>Just like a spreadsheet with multiple worksheets, a SQLite database can contain multiple tables. In this case three of them are listed in the <code>tbls</code> row in the output above:</p>
@@ -613,13 +613,13 @@ div.tocify {
 <div id="querying-the-database-with-the-sql-syntax" class="section level3">
 <h3>Querying the database with the SQL syntax</h3>
 <p>To connect to tables within a database, you can use the <code>tbl()</code> function from <strong><code>dplyr</code></strong>. This function can be used to send SQL queries to the database. To demonstrate this functionality, let’s select the columns “year”, “period”, and “plot_id” from the <code>surveys</code> table:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">tbl</span>(mammals, <span class="kw">sql</span>(<span class="st">&quot;SELECT year, period, plot_id FROM surveys&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">tbl</span>(ceramics, <span class="kw">sql</span>(<span class="st">&quot;SELECT year, period, plot_id FROM surveys&quot;</span>))</a></code></pre></div>
 <p>With this approach you can use any of the SQL queries we have seen in the database lesson.</p>
 </div>
 <div id="querying-the-database-with-the-dplyr-syntax" class="section level3">
 <h3>Querying the database with the dplyr syntax</h3>
 <p>One of the strengths of <strong><code>dplyr</code></strong> is that the same operation can be done using <strong><code>dplyr</code></strong>’s verbs instead of writing SQL. First, we select the table on which to do the operations by creating the <code>surveys</code> object, and then we use the standard <strong><code>dplyr</code></strong> syntax as if it were a data frame:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">surveys &lt;-<span class="st"> </span><span class="kw">tbl</span>(mammals, <span class="st">&quot;surveys&quot;</span>)</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">surveys &lt;-<span class="st"> </span><span class="kw">tbl</span>(ceramics, <span class="st">&quot;surveys&quot;</span>)</a>
 <a class="sourceLine" id="cb10-2" title="2">surveys <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb10-3" title="3"><span class="st">    </span><span class="kw">select</span>(year, period, plot_id)</a></code></pre></div>
 <p>In this case, the <code>surveys</code> object behaves like a data frame. Several functions that can be used with data frames can also be used on tables from a database. For instance, the <code>head()</code> function can be used to check the first 10 rows of the table:</p>
@@ -713,7 +713,7 @@ div.tocify {
 <p><strong><code>dplyr</code></strong> enables database queries across one or multiple database tables, using the same single- and multiple-table verbs you encountered previously. This means you can use the same commands regardless of whether you interact with a remote database or local dataset! This is a really useful feature if you work with large datasets: you can first prototype your code on a small subset that fits into memory, and when your code is ready, you can change the input dataset to your full database without having to change the syntax.</p>
 <p>On the other hand, being able to use SQL queries directly can be useful if your collaborators have already put together complex queries to prepare the dataset that you need for your analysis.</p>
 <p>To illustrate how to use <strong><code>dplyr</code></strong> with these complex queries, we are going to join the <code>plots</code> and <code>surveys</code> tables. The <code>plots</code> table in the database contains information about the different plots surveyed by the researchers. To access it, we point the <code>tbl()</code> command to it:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">plots &lt;-<span class="st"> </span><span class="kw">tbl</span>(mammals, <span class="st">&quot;plots&quot;</span>)</a>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">plots &lt;-<span class="st"> </span><span class="kw">tbl</span>(ceramics, <span class="st">&quot;plots&quot;</span>)</a>
 <a class="sourceLine" id="cb20-2" title="2">plots</a></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -736,7 +736,7 @@ div.tocify {
 <p>In both forms of join, if there are multiple matches between x and y, all combinations of the matches are returned. For the full list of ‘join’ functions, check out the <a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">tidyverse join page.</a></p>
 <p>In our example, the two tables we want to join are ‘plots’ and ‘surveys’.</p>
 <div class="figure">
-<img src="img/joins.svg" alt="diagram illustrating inner and left joins" />
+<img src="img/joins.png" alt="diagram illustrating inner and left joins" />
 <p class="caption">diagram illustrating inner and left joins</p>
 </div>
 <p>For example, to extract all surveys for the first plot, which has <code>plot_id</code> 1, we can do:</p>
@@ -766,7 +766,7 @@ Answer
 </h3>
 <div style="background: #fff;">
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="co">## with dplyr syntax</span></a>
-<a class="sourceLine" id="cb25-2" title="2">ceramic_types &lt;-<span class="st"> </span><span class="kw">tbl</span>(mammals, <span class="st">&quot;ceramic_types&quot;</span>)</a>
+<a class="sourceLine" id="cb25-2" title="2">ceramic_types &lt;-<span class="st"> </span><span class="kw">tbl</span>(ceramics, <span class="st">&quot;ceramic_types&quot;</span>)</a>
 <a class="sourceLine" id="cb25-3" title="3"></a>
 <a class="sourceLine" id="cb25-4" title="4"><span class="kw">left_join</span>(surveys, ceramic_types) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb25-5" title="5"><span class="st">  </span><span class="kw">filter</span>(manufacture_technique <span class="op">==</span><span class="st"> &quot;Rodent&quot;</span>) <span class="op">%&gt;%</span></a>
@@ -784,7 +784,7 @@ Answer
 <a class="sourceLine" id="cb27-8" title="8"><span class="st">GROUP BY b.manufacture_technique, a.year, a.plot_id&quot;</span>,</a>
 <a class="sourceLine" id="cb27-9" title="9"><span class="dt">sep =</span> <span class="st">&quot;&quot;</span> )</a>
 <a class="sourceLine" id="cb27-10" title="10"></a>
-<a class="sourceLine" id="cb27-11" title="11"><span class="kw">tbl</span>(mammals, <span class="kw">sql</span>(query))</a></code></pre></div>
+<a class="sourceLine" id="cb27-11" title="11"><span class="kw">tbl</span>(ceramics, <span class="kw">sql</span>(query))</a></code></pre></div>
 </div>
 </div>
 </blockquote>
@@ -797,7 +797,7 @@ Answer
 Answer
 </h3>
 <div style="background: #fff;">
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">ceramic_types &lt;-<span class="st"> </span><span class="kw">tbl</span>(mammals, <span class="st">&quot;ceramic_types&quot;</span>)</a>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">ceramic_types &lt;-<span class="st"> </span><span class="kw">tbl</span>(ceramics, <span class="st">&quot;ceramic_types&quot;</span>)</a>
 <a class="sourceLine" id="cb28-2" title="2">genus_counts &lt;-<span class="st"> </span><span class="kw">left_join</span>(surveys, plots) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb28-3" title="3"><span class="st">  </span><span class="kw">left_join</span>(ceramic_types) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb28-4" title="4"><span class="st">  </span><span class="kw">filter</span>(manufacture_technique <span class="op">==</span><span class="st"> &quot;Rodent&quot;</span>) <span class="op">%&gt;%</span></a>
@@ -808,7 +808,7 @@ Answer
 </div>
 </blockquote>
 <p>This is useful if we are interested in estimating the number of individuals with each decoration_type found by each recovery method. But what if we were interested in the number of decoration types found by each recovery method? Using <code>tally()</code> gives the number of individuals, instead we need to use <code>n_distinct()</code> to count the number of unique values found in a column.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">ceramic_types &lt;-<span class="st"> </span><span class="kw">tbl</span>(mammals, <span class="st">&quot;ceramic_types&quot;</span>)</a>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">ceramic_types &lt;-<span class="st"> </span><span class="kw">tbl</span>(ceramics, <span class="st">&quot;ceramic_types&quot;</span>)</a>
 <a class="sourceLine" id="cb29-2" title="2">ceramic_types <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">collect</span>()</a>
 <a class="sourceLine" id="cb29-3" title="3">unique_ceramic_types &lt;-<span class="st"> </span><span class="kw">left_join</span>(surveys, plots) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb29-4" title="4"><span class="st">    </span><span class="kw">left_join</span>(ceramic_types) <span class="op">%&gt;%</span></a>
@@ -823,7 +823,7 @@ Answer
 </div>
 <div id="creating-a-new-sqlite-database" class="section level2">
 <h2>Creating a new SQLite database</h2>
-<p>So far, we have used a previously prepared SQLite database. But we can also use R to create a new database, e.g. from existing <code>csv</code> files. Let’s recreate the mammals database that we’ve been working with, in R. First let’s download and read in the <code>csv</code> files. We’ll import <strong><code>tidyverse</code></strong> to gain access to the <code>read_csv()</code> function.</p>
+<p>So far, we have used a previously prepared SQLite database. But we can also use R to create a new database, e.g. from existing <code>csv</code> files. Let’s recreate the ceramics database that we’ve been working with, in R. First let’s download and read in the <code>csv</code> files. We’ll import <strong><code>tidyverse</code></strong> to gain access to the <code>read_csv()</code> function.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">download.file</span>(<span class="st">&quot;https://zenodo.org/record/6501593/files/ceramic_types.csv?download=1&quot;</span>,</a>
 <a class="sourceLine" id="cb31-2" title="2">              <span class="st">&quot;data_raw/ceramic_types.csv&quot;</span>)</a>
 <a class="sourceLine" id="cb31-3" title="3"><span class="kw">download.file</span>(<span class="st">&quot;https://zenodo.org/record/6501593/files/surveys.csv?download=1&quot;</span>,</a>
@@ -876,12 +876,12 @@ Answer
 <p>If you check the location of our database you’ll see that data is automatically being written to disk. R and <strong><code>dplyr</code></strong> not only provide ways to query existing databases, they also provide functionality to create your own databases from flat files!</p>
 <blockquote>
 <h3 id="challenge-2">Challenge</h3>
-<p>Add the remaining ceramic_types table to the <code>my_db</code> database and run some of your queries from earlier in the lesson to verify that you have faithfully recreated the mammals database.</p>
+<p>Add the remaining ceramic_types table to the <code>my_db</code> database and run some of your queries from earlier in the lesson to verify that you have faithfully recreated the ceramics database.</p>
 </blockquote>
 <p><strong>Note:</strong> In this example, we first loaded all of the data into the R session by reading the three <code>csv</code> files. Because all the data has to flow through R, this is not suitable for very large datasets.</p>
-<p><strong>Note:</strong> Finally, to close the connection to the mammals database you may use <code>DBI::dbDisconnect(mammals)</code>; this discards all pending work and frees resources, e.g. memory.</p>
+<p><strong>Note:</strong> Finally, to close the connection to the ceramics database you may use <code>DBI::dbDisconnect(ceramics)</code>; this discards all pending work and frees resources, e.g. memory.</p>
 <p style="text-align: right; font-size: small;">
-Page built on: 📆 2022-04-28 ‒ 🕢 13:02:30
+Page built on: 📆 2022-04-29 ‒ 🕢 08:09:20
 </p>
 </div>
 

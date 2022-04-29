@@ -523,13 +523,13 @@ plot(surveys$diagnostic)
 
 library(dplyr)
 library(dbplyr)
-mammals <- DBI::dbConnect(RSQLite::SQLite(), "data_raw/ceramics_data.sqlite")
+ceramics <- DBI::dbConnect(RSQLite::SQLite(), "data_raw/ceramics_data.sqlite")
 
-src_dbi(mammals)
+src_dbi(ceramics)
 
-tbl(mammals, sql("SELECT year, period, plot_id FROM surveys"))
+tbl(ceramics, sql("SELECT year, period, plot_id FROM surveys"))
 
-surveys <- tbl(mammals, "surveys")
+surveys <- tbl(ceramics, "surveys")
 surveys %>%
     select(year, period, plot_id)
 
@@ -552,7 +552,7 @@ surveys %>%
 
 
 ## with dplyr syntax
-ceramic_types <- tbl(mammals, "ceramic_types")
+ceramic_types <- tbl(ceramics, "ceramic_types")
 
 left_join(surveys, ceramic_types) %>%
   filter(manufacture_technique == "Rodent") %>%
@@ -570,7 +570,7 @@ AND b.manufacture_technique = 'Rodent'
 GROUP BY b.manufacture_technique, a.year, a.plot_id",
 sep = "" )
 
-tbl(mammals, sql(query))
+tbl(ceramics, sql(query))
 
 
 
@@ -593,7 +593,7 @@ tbl(mammals, sql(query))
 ## JOIN table3 ON table2.key = table3.key
 
 
-## ceramic_types <- tbl(mammals, "ceramic_types")
+## ceramic_types <- tbl(ceramics, "ceramic_types")
 ## genus_counts <- left_join(surveys, plots) %>%
 ##   left_join(ceramic_types) %>%
 ##   filter(manufacture_technique == "Rodent") %>%
@@ -634,4 +634,4 @@ my_db
 
 ## Add the remaining ceramic_types table to the my_db database and run some
 ## of your queries from earlier in the lesson to verify that you
-## have faithfully recreated the mammals database.
+## have faithfully recreated the ceramics database.
