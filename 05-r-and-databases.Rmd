@@ -62,7 +62,7 @@ entries. If you need these functionalities, you will need to use additional R
 packages (e.g., **`RSQLite`**). Here we will demonstrate how to interact with a
 database using **`dplyr`**, using both the **`dplyr`**'s verb syntax and the SQL syntax.
 
-### The portal_mammals database
+### The ceramics_data database
 
 We will continue to explore the `surveys` data you are already familiar with
 from previous lessons. First, we are going to install the **`dbplyr`** package:
@@ -87,7 +87,7 @@ We can point R to this database using:
 ```{r connect, purl=TRUE}
 library(dplyr)
 library(dbplyr)
-mammals <- DBI::dbConnect(RSQLite::SQLite(), "data_raw/ceramics_data.sqlite")
+ceramics <- DBI::dbConnect(RSQLite::SQLite(), "data_raw/ceramics_data.sqlite")
 ```
 
 This command uses 2 packages that helps **`dbplyr`** and **`dplyr`** talk to the
@@ -102,10 +102,10 @@ the `SQLite` database contained in the `ceramics_data.sqlite` file.
 Using a similar approach, you could connect to many other database management
 systems that are supported by R including MySQL, PostgreSQL, BigQuery, etc.
 
-Let's take a closer look at the `mammals` database we just connected to:
+Let's take a closer look at the `ceramics` database we just connected to:
 
 ```{r tables, results="markup"}
-src_dbi(mammals)
+src_dbi(ceramics)
 ```
 
 Just like a spreadsheet with multiple worksheets, a SQLite database can contain
@@ -127,7 +127,7 @@ demonstrate this functionality, let's select the columns "year", "period",
 and "plot_id" from the `surveys` table:
 
 ```{r use-sql-syntax, purl=TRUE}
-tbl(mammals, sql("SELECT year, period, plot_id FROM surveys"))
+tbl(ceramics, sql("SELECT year, period, plot_id FROM surveys"))
 ```
 
 With this approach you can use any of the SQL queries we have seen in the
@@ -141,7 +141,7 @@ the operations by creating the `surveys` object, and then we use the standard
 **`dplyr`** syntax as if it were a data frame:
 
 ```{r use-dplyr-syntax}
-surveys <- tbl(mammals, "surveys")
+surveys <- tbl(ceramics, "surveys")
 surveys %>%
     select(year, period, plot_id)
 ```
@@ -325,7 +325,7 @@ information about the different plots surveyed by the researchers. To access it,
 we point the `tbl()` command to it:
 
 ```{r plots, results='markup', purl=FALSE}
-plots <- tbl(mammals, "plots")
+plots <- tbl(ceramics, "plots")
 plots
 ```
 
@@ -348,7 +348,7 @@ In both forms of join, if there are multiple matches between x and y, all combin
 
 In our example, the two tables we want to join are 'plots' and 'surveys'.
 
-![diagram illustrating inner and left joins](./img/joins.svg)
+![diagram illustrating inner and left joins](./img/joins.png)
 
 
 For example, to extract all surveys for the first plot, which has `plot_id` 1,
@@ -389,7 +389,7 @@ retrieved.
 >
 > ```{r left_join_answer, answer=TRUE, eval=TRUE}
 > ## with dplyr syntax
-> ceramic_types <- tbl(mammals, "ceramic_types")
+> ceramic_types <- tbl(ceramics, "ceramic_types")
 >
 > left_join(surveys, ceramic_types) %>%
 >   filter(manufacture_technique == "Rodent") %>%
@@ -407,7 +407,7 @@ retrieved.
 > GROUP BY b.manufacture_technique, a.year, a.plot_id",
 > sep = "" )
 >
-> tbl(mammals, sql(query))
+> tbl(ceramics, sql(query))
 > >
 > ```
 
@@ -443,7 +443,7 @@ retrieved.
 >  The query should return counts of decoration_type by recovery method.
 >
 > ```{r genus_by_type_answer, answer=TRUE, results='markup', eval=FALSE}
-> ceramic_types <- tbl(mammals, "ceramic_types")
+> ceramic_types <- tbl(ceramics, "ceramic_types")
 > genus_counts <- left_join(surveys, plots) %>%
 >   left_join(ceramic_types) %>%
 >   filter(manufacture_technique == "Rodent") %>%
@@ -472,7 +472,7 @@ number of individuals, instead we need to use `n_distinct()` to count the
 number of unique values found in a column.
 
 ```{r count_unique_decoration_types, purl=FALSE}
-ceramic_types <- tbl(mammals, "ceramic_types")
+ceramic_types <- tbl(ceramics, "ceramic_types")
 ceramic_types %>% collect()
 unique_ceramic_types <- left_join(surveys, plots) %>%
     left_join(ceramic_types) %>%
@@ -491,7 +491,7 @@ not only on database connections but also on regular data frames.
 
 So far, we have used a previously prepared SQLite database. But we can also
 use R to create a new database, e.g. from existing `csv` files.  Let's recreate
-the mammals database that we've been working with, in R. First let's download and read in the
+the ceramics database that we've been working with, in R. First let's download and read in the
 `csv` files.  We'll import **`tidyverse`** to gain access to the `read_csv()` function.
 
 ```{r data_frames, purl=TRUE}
@@ -542,7 +542,7 @@ from flat files!
 >
 > Add the remaining ceramic_types table to the `my_db` database and run some of your
 > queries from earlier in the lesson to verify that you have
-> faithfully recreated the mammals database.
+> faithfully recreated the ceramics database.
 
 
 ```{r challenge-sql-3, purl=TRUE, echo=FALSE}
@@ -550,15 +550,15 @@ from flat files!
 
 ## Add the remaining ceramic_types table to the my_db database and run some
 ## of your queries from earlier in the lesson to verify that you
-## have faithfully recreated the mammals database.
+## have faithfully recreated the ceramics database.
 ```
 
 **Note:** In this example, we first loaded all of the data into the R session by
 reading the three `csv` files. Because all the data has to flow through R,
 this is not suitable for very large datasets.
 
-**Note:** Finally, to close the connection to the mammals database you may use
-`DBI::dbDisconnect(mammals)`; this discards all pending work and frees resources,
+**Note:** Finally, to close the connection to the ceramics database you may use
+`DBI::dbDisconnect(ceramics)`; this discards all pending work and frees resources,
 e.g. memory.
 
 
