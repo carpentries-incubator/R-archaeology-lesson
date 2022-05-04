@@ -192,7 +192,7 @@ We will download the data directly from R during the lessons. However, if you
 are expecting problems with the network, it may be better to download the data
 beforehand and store it on your machine.
 
-The data files for the lesson can be downloaded manually here: <https://doi.org/10.6084/m9.figshare.1314459>
+The data files for the lesson can be downloaded manually here: <https://doi.org/10.5281/zenodo.6478180>
 
 
 ## Contributors

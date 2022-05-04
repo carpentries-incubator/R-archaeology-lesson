@@ -59,15 +59,22 @@ system("update-copyright.py")
 
 ## Data
 
-Data is from the paper S. K. Morgan Ernest, Thomas J. Valone, and James
-H. Brown. 2009. Long-term monitoring and experimental manipulation of a
-Chihuahuan Desert ecosystem near Portal, Arizona, USA. Ecology 90:1708.
+### Original dataset (Ecology)
+
+The data used in this course was adapted from data from the paper S. K. Morgan Ernest,
+Thomas J. Valone, and James H. Brown. 2009. Long-term monitoring and experimental
+manipulation of a Chihuahuan Desert ecosystem near Portal, Arizona, USA.
+Ecology 90:1708.
 
 http://esapubs.org/archive/ecol/E090/118/
 
-A simplified version of this data, suitable for teaching is available on
+A simplified version of that data, suitable for teaching is available on
 [figshare](https://doi.org/10.6084/m9.figshare.1314459.v5).
 
+## Adapted dataset (Archaeology)
+
+The data used in this course was adapted from the above Ecology dataset by Alison
+Clarke and Michelle de Gruchy, and is available on [Zenodo](https://doi.org/10.5281/zenodo.6478180).
 
 ## Lessons
 

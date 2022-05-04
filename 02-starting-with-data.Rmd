@@ -64,7 +64,7 @@ source URL ("https://zenodo.org/record/6478181/files/ceramics_data.csv?download=
 This source URL downloads a CSV file from Zenodo. The text after the comma
 ("data_raw/ceramics_data.csv") is the destination of the file on your local
 machine. You'll need to have a folder on your machine called "data_raw" where
-you'll download the file. So this command downloads a file from Figshare, names
+you'll download the file. So this command downloads a file from Zenodo, names
 it "ceramics_data.csv" and adds it to a preexisting folder named "data_raw".
 
 ```{r, eval=FALSE, purl=TRUE}
