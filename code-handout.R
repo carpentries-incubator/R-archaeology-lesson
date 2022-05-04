@@ -228,7 +228,7 @@ as.numeric(year_fct)               # Wrong! And there is no warning...
 as.numeric(as.character(year_fct)) # Works...
 as.numeric(levels(year_fct))[year_fct]    # The recommended way.
 
-## bar plot of the number of females and males captured during the experiment:
+## bar plot of the number of artefacts diagnosed by rim and base:
 plot(surveys$diagnostic)
 
 
