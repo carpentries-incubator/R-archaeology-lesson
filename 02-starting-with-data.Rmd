@@ -532,11 +532,10 @@ Notice that in the `levels()` approach, three important steps occur:
 
 When your data is stored as a factor, you can use the `plot()` function to get a
 quick glance at the number of observations represented by each factor
-level. Let's look at the number of males and females captured over the course of
-the experiment:
+level. Let's look at the number of artefacts diagnosed by rim and base:
 
 ```{r, purl=TRUE}
-## bar plot of the number of females and males captured during the experiment:
+## bar plot of the number of artefacts diagnosed by rim and base:
 plot(surveys$diagnostic)
 ```
 
