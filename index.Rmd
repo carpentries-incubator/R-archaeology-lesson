@@ -1,6 +1,6 @@
 ---
 title: "Data Analysis and Visualization in R for Archaeologists"
-author: Alison Clarke, François Michonneau & Auriel Fournier
+author: Alison Clarke
 ---
 
 <p></p>
@@ -27,6 +27,8 @@ how to work with databases directly from R.
 
 This lesson assumes no prior knowledge of R or RStudio and no programming
 experience.
+
+This lesson was adapted by Alison Clarke from the Data Carpentries lesson [**Data Analysis and Visualization in R for Archaeologists**](https://datacarpentry.org/R-ecology-lesson/index.html), written by François Michonneau & Auriel Fournier.
 
 
 ## Episodes
